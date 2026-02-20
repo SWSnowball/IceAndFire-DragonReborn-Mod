@@ -1,0 +1,21 @@
+{
+  "item.dragonreborn.dragon_adrenaline": "龙族肾上腺素",
+  "item.dragonreborn.dragon_adrenaline.tooltip": "用于复活死亡的龙（具体时长：驯养天数*5s）",
+
+  "item.dragonreborn.dragon_body_protector": "龙族护身符",
+  "item.dragonreborn.dragon_body_protector.tooltip": "用于守护死亡的龙",
+
+  "item.dragonreborn.faster_dragon_adrenaline": "浓缩龙族肾上腺素",
+  "item.dragonreborn.faster_dragon_adrenaline.tooltip": "浓度更强的肾上腺素，可以更快速地复活死亡的龙（4s）",
+
+  "item.dragonreborn.protector_defuser": "护符去除器",
+  "item.dragonreborn.protector_defuser.tooltip": "用于去除龙族护身符的保护效果",
+
+  "item.dragonreborn.dragon_sleep_stick": "睡眠龙杖",
+  "item.dragonreborn.dragon_sleep_stick.tooltip": "用于允许/禁止龙自行睡眠的工具",
+  "itemGroup.dragonreborn": "龙魂复生",
+
+  "key.category.dragonreborn": "永恒羁绊",
+  "key.dragonreborn.pet_dragon": "抚摸龙",
+  "text.dragonreborn.petting.hold_p_key": "按住P键并右键龙进行抚摸"
+}

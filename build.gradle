@@ -1,0 +1,211 @@
+buildscript {
+    repositories {
+        maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
+        maven { url = 'https://maven.minecraftforge.net' }
+    }
+    dependencies {
+        classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
+    }
+}
+// 使用 ForgeGradle 插件
+plugins {
+    id 'eclipse'
+    id 'idea'
+    id 'maven-publish'
+    id 'net.minecraftforge.gradle' version '[6.0,6.2)' // 版本范围，会自动选择6.x的最新版
+}
+
+version = mod_version
+group = mod_group_id
+base {
+    archivesName = mod_id
+}
+
+// 【关键】Java 17 是 Forge 1.20.1 的要求
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+
+// 【关键修改】使用 minecraft 块替代 legacyForge 块
+minecraft {
+    // 版本格式必须为： minecraft_version-forge_version
+    mappings channel: 'official', version: '1.20.1' // 先用官方混淆映射，更稳定
+    // 若需Parchment（源码可读映射），请查阅ForgeGradle文档进行配置
+
+    // 自动应用访问变换器（Access Transformers）
+    // accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
+
+    runs {
+        client {
+            workingDirectory project.file('run')
+            property 'forge.logging.markers', 'REGISTRIES'
+            property 'forge.logging.console.level', 'debug'
+            property 'forge.enabledGameTestNamespaces', mod_id
+            mods {
+                "${mod_id}" {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        server {
+            workingDirectory project.file('run')
+            property 'forge.logging.markers', 'REGISTRIES'
+            property 'forge.logging.console.level', 'debug'
+            property 'forge.enabledGameTestNamespaces', mod_id
+            mods {
+                "${mod_id}" {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        gameTestServer {
+            workingDirectory project.file('run')
+            property 'forge.logging.markers', 'REGISTRIES'
+            property 'forge.logging.console.level', 'debug'
+            property 'forge.enabledGameTestNamespaces', mod_id
+            mods {
+                "${mod_id}" {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        data {
+            workingDirectory project.file('run')
+            property 'forge.logging.markers', 'REGISTRIES'
+            property 'forge.logging.console.level', 'debug'
+            args '--mod', mod_id, '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
+            mods {
+                "${mod_id}" {
+                    source sourceSets.main
+                }
+            }
+        }
+    }
+}
+
+// 在 sourceSets 部分，确保主资源目录正确
+sourceSets {
+    main {
+        resources {
+            // 包含主资源目录
+            srcDirs = ['src/main/resources', 'src/generated/resources']
+            // 排除 .cache 目录（如果存在）
+            exclude '.cache'
+        }
+    }
+}
+
+// 【关键修改】配置依赖仓库
+repositories {
+    mavenCentral()
+    maven {
+        name = 'Forge Maven'
+        url = 'https://maven.minecraftforge.net'
+    }
+    maven {
+        name = 'CurseMaven'
+        url = 'https://cursemaven.com'
+        content {
+            includeGroup "curse.maven"
+        }
+    }
+    // 如果需要 GeckoLib
+    // maven { url = 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/' }
+}
+
+// 应用插件
+apply plugin: 'org.spongepowered.mixin'
+
+// Mixin配置（这应该放在minecraft块之后，但dependencies之前）
+mixin {
+    add sourceSets.main, "dragonreborn.refmap.json"
+    config "dragonreborn.mixins.json"
+}
+
+dependencies {
+    // 【核心】声明 Forge 本身
+    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
+    implementation 'org.spongepowered:mixin:0.8.5'
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+
+    // 【关键修改】使用 fg.deobf 包装模组依赖，并使用 Forge 版本的ID
+    // 冰火传说 (Ice and Fire) - 必须去CurseForge页面找Forge版本的文件ID
+    implementation fg.deobf("curse.maven:ice-and-fire-dragons-264231:5633453") // 替换XXXXXXX为Forge版文件ID
+    // Citadel (前置) - 同样需要Forge版文件ID
+    implementation fg.deobf("curse.maven:citadel-331936:6702068") // 替换XXXXXXX为Forge版文件ID
+}
+
+// 处理资源文件中的占位符（例如 mods.toml）
+tasks.named('processResources', ProcessResources).configure {
+    var replaceProperties = [
+            minecraft_version: minecraft_version,
+            minecraft_version_range: minecraft_version_range,
+            forge_version: forge_version,
+            forge_version_range: forge_version_range,
+            loader_version_range: loader_version_range,
+            mod_id: mod_id,
+            mod_name: mod_name,
+            mod_license: mod_license,
+            mod_version: mod_version,
+            mod_authors: mod_authors,
+            mod_description: mod_description
+    ]
+    inputs.properties replaceProperties
+
+    filesMatching(['META-INF/mods.toml', 'pack.mcmeta']) {
+        expand replaceProperties
+    }
+}
+
+// 确保编译使用UTF-8编码
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+// 让IDEA自动下载源码和文档
+idea {
+    module {
+        downloadSources = true
+        downloadJavadoc = true
+    }
+}
+
+// 在 build.gradle 末尾添加
+
+task debugResources {
+    doLast {
+        println "=== 调试资源目录 ==="
+        println "项目目录: ${projectDir}"
+        println "构建目录: ${buildDir}"
+
+        // 检查资源目录
+        sourceSets.main.resources.srcDirs.each { dir ->
+            println "资源目录: ${dir}"
+            if (dir.exists()) {
+                println "  存在，包含文件:"
+                fileTree(dir).each { file ->
+                    if (file.name.endsWith('.json')) {
+                        println "    - ${file.relativePath(dir)}"
+                    }
+                }
+            } else {
+                println "  不存在！"
+            }
+        }
+
+        // 检查输出JAR
+        def jarFile = new File(buildDir, "libs/${archivesBaseName}-${version}.jar")
+        println "输出JAR: ${jarFile}"
+        println "JAR存在: ${jarFile.exists()}"
+
+        if (jarFile.exists()) {
+            println "JAR内容示例:"
+            def zip = new java.util.zip.ZipFile(jarFile)
+            zip.entries().toList().findAll { it.name.contains('petting') || it.name.contains('texts') }.each { entry ->
+                println "  - ${entry.name}"
+            }
+            zip.close()
+        }
+    }
+}

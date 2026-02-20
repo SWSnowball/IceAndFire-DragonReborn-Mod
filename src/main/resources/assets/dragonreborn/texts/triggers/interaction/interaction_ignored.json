@@ -1,0 +1,29 @@
+{
+  "event": "interaction_ignored",
+  "description": "龙互动请求被忽略事件",
+  "text_groups": {
+    "dragon_ignored_high_mood": {
+      "priority": 1,
+      "condition": "moodWeight >0.7",
+      "texts" : [
+        "<龙名>原本开心的内心浸入了些许失望的色滴，但它明白——陪伴不能随时和无尽取之。",
+        "<龙名>有些许疑惑地望向你忙碌的身影，但它会耐心等待你的目光重新投射在它鳞甲的泛光之上。"
+      ]
+    },
+    "dragon_ignored_medium_mood": {
+      "priority": 1,
+      "condition": "moodWeight >=0.3 && moodWeight <=0.7",
+      "texts": [
+        "<龙名>失望地望着你忙碌的身影，喉下颤动着低沉的祈求鸣声缓缓离开。",
+        "<龙名>没能得到你及时的回应。它给了你的背影一瞥，静静等候着下一次你的回应。"
+      ]
+    },
+    "dragon_ignored_low_mood": {
+      "priority": 1,
+      "condition": "moodWeight <0.3",
+      "texts": [
+        "<龙名>的内心颤抖了一阵——它难忍地发出呜咽，泪滴在鳞片上划下了深色的痕迹——若你刚才能够理一下它，也不会这样。"
+      ]
+    }
+  }
+}

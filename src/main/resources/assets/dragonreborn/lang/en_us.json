@@ -1,0 +1,21 @@
+{
+  "item.dragonreborn.dragon_adrenaline": "Dragon Adrenaline",
+  "item.dragonreborn.dragon_adrenaline.tooltip": "Can revive a deceased dragon (Revival Time: Dragon age in days * 5 secs)",
+
+  "item.dragonreborn.dragon_body_protector": "Dragon Body Protector",
+  "item.dragonreborn.dragon_body_protector.tooltip": "Can protect a deceased dragon's body",
+
+  "item.dragonreborn.faster_dragon_adrenaline": "Faster Dragon Adrenaline",
+  "item.dragonreborn.faster_dragon_adrenaline": "Can revive a deceased dragon faster (In 4 secs)",
+
+  "item.dragonreborn.protector_defuser": "Protector Defuser",
+  "item.dragonreborn.protector_defuser.tooltip": "Can defuse a dragon body protector's effect",
+
+  "item.dragonreborn.dragon_sleep_stick": "Dragon Sleep Stick",
+  "item.dragonreborn.dragon_sleep_stick.tooltip": "Can allow/disallow your dragon to sleep",
+  "itemGroup.dragonreborn": "Dragon Reborn",
+
+  "key.category.dragonreborn": "Dragon Reborn",
+  "key.dragonreborn.pet_dragon": "Pet dragon",
+  "text.dragonreborn.petting.hold_p_key": "Press P to pet your lovely dragon."
+}
