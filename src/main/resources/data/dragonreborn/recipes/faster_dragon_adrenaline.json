@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "AAA",
+    "AAA",
+    "AAA"
+  ],
+  "key": {
+    "A": {
+      "item": "dragonreborn:dragon_adrenaline"
+    }
+  },
+  "result": {
+    "item": "dragonreborn:faster_dragon_adrenaline",
+    "count": 1
+  }
+}

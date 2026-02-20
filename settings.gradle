@@ -1,0 +1,14 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        maven { url = 'https://maven.minecraftforge.net/' } // 【关键】Forge插件仓库
+        maven { url = 'https://repo.spongepowered.org/repository/maven-public/' } // 为可能的 Mixin 准备
+    }
+}
+
+// 【关键修改】应用 ForgeGradle 插件所需的工具链解析器
+plugins {
+    id 'org.gradle.toolchains.foojay-resolver-convention' version '0.7.0'
+}
+
+rootProject.name = 'SWSnb_DragonReborn_Forge' // 可以改为你的项目名，如 'dragonreborn'

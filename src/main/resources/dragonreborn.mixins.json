@@ -1,0 +1,19 @@
+{
+  "required": true,
+  "minVersion": "0.8.5",
+  "package": "com.swsnowball.dragonreborn.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "DragonTabulaModelAnimatorMixin",
+    "EntityDragonBaseMixin",
+    "ItemDragonFluteMixin",
+    "ItemDragonHornMixin",
+    "ItemSummoningCrystalMixin"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "refmap": "dragonreborn.refmap.json"
+}

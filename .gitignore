@@ -1,0 +1,40 @@
+# eclipse
+bin
+*.launch
+.settings
+.metadata
+.classpath
+.project
+
+# idea
+out
+*.ipr
+*.iws
+*.iml
+.idea
+
+# gradle
+build
+.gradle
+
+# logs
+*.log
+
+# hidden files
+.DS_Store
+Thumbs.db
+
+# local environmental config
+.env
+*.local
+
+# other
+eclipse
+run
+runs
+run-data
+Citadel-master
+Ice_and_Fire-2.1.13-alpha-1
+ywzj_midi
+
+repo

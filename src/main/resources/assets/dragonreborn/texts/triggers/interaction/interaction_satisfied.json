@@ -1,0 +1,30 @@
+{
+  "event": "interaction_satisfied",
+  "description": "龙请求互动被满足事件",
+  "text_gropus": {
+    "dragon_satisfied_high_mood": {
+      "priority": 1,
+      "condition": "closeness >0.5 && moodWeight >0.7",
+      "texts": [
+        "<龙名>高兴地在你的身上又蹭了好几下——自己小小的愿望，在你的接受下迸发出了无比绚烂的极光。",
+        "<龙名>激动地发出奇特的欢呼声——没有什么是比你的接纳与羁绊更加珍贵的了！"
+      ]
+    }
+  },
+  "dragon_satisfied_medium_mood": {
+    "priority": 1,
+    "condition": "closeness >0.5 && moodWeight >=0.3 && moodWeight <=0.7",
+    "texts": [
+      "<龙名>缓缓望向你，眼神温和而柔软——平凡的时光，也必须要由你和它来共同照亮。",
+      "<龙名>发出了温和的低鸣——它的心境中划过流萤，你们的每次呼吸与心跳都在同频。"
+    ]
+  },
+  "dragon_satisfied_low_mood": {
+    "priority": 1,
+    "condition": "closeness >0.5 && moodWeight <0.3",
+    "texts": [
+      "<龙名>把头埋在你的怀里持续许久——它也会有脆弱和需要支持的时候，正如现在一样。",
+      "<龙名>的龙泪在悄悄从你的脸边划过——恍若是悲伤与失意的精华，在你的温暖怀抱下汽化。"
+    ]
+  }
+}

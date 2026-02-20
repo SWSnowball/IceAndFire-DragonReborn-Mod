@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "B",
+    "A",
+    "B"
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:stick"
+    },
+    "B": {
+      "item": "minecraft:cobblestone"
+    },
+
+  },
+  "result": {
+    "item": "dragonreborn:dragon_sleep_stick",
+    "count": 1
+  }
+}
