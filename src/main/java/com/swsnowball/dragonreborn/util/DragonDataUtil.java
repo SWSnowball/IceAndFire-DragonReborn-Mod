@@ -1,6 +1,7 @@
 package com.swsnowball.dragonreborn.util;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
 
 import java.util.Random;
 
@@ -8,19 +9,19 @@ public class DragonDataUtil {
     public static String getHealthDescription(float current, float max_value) {
         float hp_perc = current / max_value; // 生命值百分比（Health Point Percent）
         if (hp_perc == 1) {
-            return "毫发无损";
+            return String.valueOf(Component.translatable("dragon.attributes.health.no_hurt"));
         } else if (hp_perc >= 0.8) {
-            return "健康";
+            return String.valueOf(Component.translatable("dragon.attributes.health.healthy"));
         } else if (hp_perc >= 0.7 && hp_perc < 0.8) {
-            return "轻伤";
+            return String.valueOf(Component.translatable("dragon.attributes.health.little_wound"));
         } else if (hp_perc >= 0.4 && hp_perc < 0.7) {
-            return "受创";
+            return String.valueOf(Component.translatable("dragon.attributes.health.hurt"));
         } else if (hp_perc >= 0.1 && hp_perc < 0.4) {
-            return "重伤";
+            return String.valueOf(Component.translatable("dragon.attributes.health.serious"));
         } else if (hp_perc > 0 && hp_perc < 0.1) {
-            return "濒死";
+            return String.valueOf(Component.translatable("dragon.attributes.health.dying"));
         } else if (hp_perc == 0.0) {
-            return "死亡";
+            return String.valueOf(Component.translatable("dragon.attributes.health.dead"));
         }
         return null;
     }

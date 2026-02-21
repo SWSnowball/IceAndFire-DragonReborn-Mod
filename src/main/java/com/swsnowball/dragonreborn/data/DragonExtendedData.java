@@ -2,6 +2,7 @@
 package com.swsnowball.dragonreborn.data;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 
 public class DragonExtendedData {
     // 核心数据
@@ -110,16 +111,16 @@ public class DragonExtendedData {
 
     // 获取心情描述（简单版）
     public String getMoodDescription() {
-        if (moodWeight > 0.7f) return "开心";
-        if (moodWeight < 0.3f) return "悲伤";
-        return "平静";
+        if (moodWeight > 0.7f) return String.valueOf(Component.translatable("dragon.data.mood.rate.happy"));
+        if (moodWeight < 0.3f) return String.valueOf(Component.translatable("dragon.data.mood.rate.sad"));
+        return String.valueOf(Component.translatable("dragon.data.mood.rate.calm"));
     }
 
     // 获取亲密度描述（简单版）
     public String getClosenessDescription() {
-        if (closeness > 0.7f) return "永恒";
-        if (closeness > 0.5f) return "亲密";
-        if (closeness > 0.2f) return "相识";
-        return "疏离";
+        if (closeness > 0.7f) return String.valueOf(Component.translatable("dragon.data.closeness.pretty"));
+        if (closeness > 0.5f) return String.valueOf(Component.translatable("dragon.data.closeness.high"));
+        if (closeness > 0.2f) return String.valueOf(Component.translatable("dragon.data.closeness.medium"));
+        return String.valueOf(Component.translatable("dragon.data.closeness.low"));
     }
 }

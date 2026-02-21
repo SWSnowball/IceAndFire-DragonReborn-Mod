@@ -107,7 +107,7 @@ public class PettingAnimationApplier {
     // 尾巴动画：高兴的摆动
     private static void applyTailAnimation(Map<String, AdvancedModelBox> cubes, float time, float progress, float easedProgress, float dragon_mood) {
         // 尾巴摆动速度
-        float tailSpeed = (float) ((float) (TAIL_SPEED.get() + 0.0) - (2.0 - dragon_mood + 1));
+        float tailSpeed = (float) ((float) (TAIL_SPEED.get() + 0.0) - (2.0 - (dragon_mood + 1)));
         // 尾巴摆动幅度
         float tailAmount = (float) (dragon_mood * 0.6 + 0.03 + TAIL_SWINGING_RANGE_ADDITION.get());
 

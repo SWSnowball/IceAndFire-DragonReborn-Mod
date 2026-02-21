@@ -35,7 +35,7 @@ public class DragonRebornConfig {
 
         ALLOW_TEXT_SHOWING = BUILDER
                 .comment("Allow text showing")
-                .define("allowTextShowing", true);
+                .define("allowTextShowing", false);
 
         ALLOW_DRAGON_EXTENDED_DATA_UPDATE = BUILDER
                 .comment("Allow Dragon Extended Data to update")

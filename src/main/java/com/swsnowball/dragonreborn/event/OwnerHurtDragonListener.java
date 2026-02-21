@@ -33,10 +33,10 @@ public class OwnerHurtDragonListener {
                         data.setMoodWeight(data.getMoodWeight() - moodWeightReduction);
                         data.setCloseness(data.getCloseness() - closenessReduction);
                         player.displayClientMessage(
-                                Component.literal("§c你误伤了你的龙" +
+                                Component.literal("§c" + Component.translatable("dragon.event.hurt") +
                                         dragon.getName().getString() +
-                                        "！§e（积极情绪权重 -" +
-                                        round(moodWeightReduction * 100, 2) + "% | 亲密值 -" +
+                                        "！§e（" + Component.translatable("dragon.data.moodweight") + " -" +
+                                        round(moodWeightReduction * 100, 2) + "% | " + Component.translatable("dragon.data.closeness") + " -" +
                                         round(closenessReduction * 100, 2) + "%）"),
                                 true
                         );

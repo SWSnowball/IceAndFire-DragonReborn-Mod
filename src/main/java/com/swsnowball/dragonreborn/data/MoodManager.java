@@ -3,6 +3,7 @@ package com.swsnowball.dragonreborn.data;
 import com.github.alexthe666.iceandfire.entity.EntityDragonBase;
 import com.github.alexthe666.iceandfire.item.IafItemRegistry;
 import com.github.alexthe666.iceandfire.item.ItemSummoningCrystal;
+import com.swsnowball.dragonreborn.config.DragonRebornConfig;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
@@ -80,6 +81,12 @@ public class MoodManager {
                     // 距离大于80格且不处于守护模式
                     if (!data.getLonelyStatus()) {
                         data.setLonelyStatus(true);
+                        if (!DragonRebornConfig.ALLOW_TEXT_SHOWING.get()) {
+                            owner.displayClientMessage(
+                                    Component.literal("§6" + Component.translatable("dragon.interaction.player_leaving") + dragon.getName().getString() + Component.translatable("basic.symbol.period")),
+                                    false
+                            );
+                        }
                         showText(level, dragon, data, owner, "player_leaving");
                     } else {
                         // 已经处于孤独状态
@@ -96,6 +103,12 @@ public class MoodManager {
                 } else if (distance < 80 * 80) {
                     if (data.getLonelyStatus() && dragon.getCommand() != 2) {
                         data.setLonelyStatus(false);
+                        if (!DragonRebornConfig.ALLOW_TEXT_SHOWING.get()) {
+                            owner.displayClientMessage(
+                                    Component.literal("§6" + Component.translatable("dragon.interaction.player_get_back") + dragon.getName().getString() + Component.translatable("basic.symbol.period")),
+                                    false
+                            );
+                        }
                         showText(level, dragon, data, owner, "player_get_back");
                         setDragonCommand(dragon,2);
                     }
@@ -103,7 +116,7 @@ public class MoodManager {
                     if (data.getPlayerIsNear() && distance > 10 * 10) {
                         data.setPlayerIsNear(false);
                         owner.displayClientMessage(
-                                Component.literal("§3" + "你现在没有靠近" + data.getDragonName() + "了。"),
+                                Component.literal("§3" + Component.translatable("dragon.interaction.get_near.not_near.front") + data.getDragonName() + Component.translatable("dragon.interaction.get_near.not_near.back")),
                                 true);
                     }
 
@@ -113,7 +126,7 @@ public class MoodManager {
                         if (!data.getPlayerIsNear()) {
                             data.setPlayerIsNear(true);
                             owner.displayClientMessage(
-                                    Component.literal("§3" + "你现在靠近" + data.getDragonName() + "了。"),
+                                    Component.literal("§3" + Component.translatable("dragon.interaction.get_near.near.front") + data.getDragonName() + Component.translatable("dragon.interaction.get_near.near.back")),
                                     true
                             );
                         }
@@ -122,6 +135,12 @@ public class MoodManager {
                     data.addCloseness(0.000006944f);
                     if (data.getLonelyStatus()) {
                         data.setLonelyStatus(false);
+                        if (!DragonRebornConfig.ALLOW_TEXT_SHOWING.get()) {
+                            owner.displayClientMessage(
+                                    Component.literal("§6" + Component.translatable("dragon.interaction.player_get_back") + dragon.getName().getString() + Component.translatable("basic.symbol.period")),
+                                    false
+                            );
+                        }
                         showText(level, dragon, data, owner, "player_get_back");
                         setDragonCommand(dragon,2);
                     }
@@ -143,6 +162,12 @@ public class MoodManager {
             if (data.getWaitingForPlayer() && data.getCloseness() >= 0.2) { // 更新龙的等待时间
                 if (data.getWaitingTime() >= 60) { // 若玩家超过60s无反应则自行离开
                     data.setWaitingTime(data.getWaitingTime() - 60);
+                    if (!DragonRebornConfig.ALLOW_TEXT_SHOWING.get()) {
+                        owner.displayClientMessage(
+                                Component.translatable("dragon.interaction.player_ignored.front" + dragon.getName().getString()),
+                                true
+                        );
+                    }
                     showText(level, dragon, data, owner, "interaction_ignored");
                     float moodChange = 0.0f;
                     if (data.getMoodWeight() < 0.3) {
@@ -154,7 +179,7 @@ public class MoodManager {
                     }
                     data.setMoodWeight(data.getMoodWeight() - moodChange);
                     owner.displayClientMessage(
-                            Component.literal("§5" + "(积极情绪权重 -" + moodChange * 100 + "%)"),
+                            Component.literal("§5" + "(" + String.valueOf(Component.translatable("dragon.data.moodweight")) + " - " + moodChange * 100 + "%)"),
                             true
                     );
                     level.playSound(null, dragon.blockPosition(),
@@ -232,6 +257,12 @@ public class MoodManager {
         if (data.getIRC() <= 0) { // 冷却为0时请求互动
             oldCommand = dragon.getCommand();
             data.setWaitingForPlayer(true);
+            if (!DragonRebornConfig.ALLOW_TEXT_SHOWING.get()) {
+                player.displayClientMessage(
+                        Component.literal("§6" + dragon.getName().getString() + Component.translatable("dragon.interaction.request_interaction")),
+                        false
+                );
+            }
             showText(level, dragon, data, player, "interaction_request");
             dragon.setCommand(2);
             if (dragon.isHovering()) {dragon.setHovering(false);}

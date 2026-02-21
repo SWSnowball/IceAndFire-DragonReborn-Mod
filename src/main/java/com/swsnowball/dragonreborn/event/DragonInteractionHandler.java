@@ -1,10 +1,10 @@
-// DragonInteractionHandler.java - 使用新的TextManager
 package com.swsnowball.dragonreborn.event;
 
 import com.github.alexthe666.iceandfire.entity.EntityDragonBase;
 import com.github.alexthe666.iceandfire.item.IafItemRegistry;
 import com.swsnowball.dragonreborn.DragonRebornMod;
 import com.swsnowball.dragonreborn.client.SimplePettingAnimation;
+import com.swsnowball.dragonreborn.config.DragonRebornConfig;
 import com.swsnowball.dragonreborn.data.DragonDataManager;
 import com.swsnowball.dragonreborn.data.DragonExtendedData;
 import com.swsnowball.dragonreborn.network.StartAnimationPacket;
@@ -91,7 +91,7 @@ public class DragonInteractionHandler {
             // 检查龙是否被驯服并且主人是玩家
             if (!dragon.isTame() || dragon.getOwner() == null) {
                 player.displayClientMessage(
-                        Component.literal("§c这不是你驯服的龙！"),
+                        Component.literal("§c" + Component.translatable("dragon.event.untamed_interaction")),
                         false
                 );
                 return;
@@ -99,7 +99,7 @@ public class DragonInteractionHandler {
 
             if (!dragon.getOwner().getUUID().equals(player.getUUID())) {
                 player.displayClientMessage(
-                        Component.literal("§c这不是你驯服的龙！"),
+                        Component.literal("§c" + Component.translatable("dragon.event.untamed_interaction")),
                         false
                 );
                 return;
@@ -118,12 +118,18 @@ public class DragonInteractionHandler {
         // 基础检查：龙是否已死
         if (dragon.isModelDead()) {
             player.displayClientMessage(
-                    Component.literal("§2" + dragon.getName().getString() + "的躯体已然冰冷...它不会再回应你的抚摸了。"),
+                    Component.literal("§2" + dragon.getName().getString() + Component.translatable("dragon.interaction.interact_with_dead_dragon")),
                     true);
             return;
         }
 
         if (data.getCloseness() < 0.2) { // 亲密度过低拒绝抚摸
+            if (!DragonRebornConfig.ALLOW_TEXT_SHOWING.get()) {
+                player.displayClientMessage(
+                        Component.literal("§6" + Component.translatable("dragon.interaction.low_closeness_to_pet") + dragon.getName().getString() + Component.translatable("basic.symbol.period")),
+                        false
+                );
+            }
             showText(serverLevel, dragon, data, player, "petting");
             sendParticles(dragon, serverLevel, data);
             Random rand = new Random();
@@ -156,7 +162,7 @@ public class DragonInteractionHandler {
                 DragonRebornMod.NETWORK.send(PacketDistributor.TRACKING_ENTITY.with(() -> dragon), stopPacket);
             }
             // 给玩家反馈
-            player.displayClientMessage(Component.literal("§7你停止抚摸" + dragon.getName().getString() + "了。"), true);
+            player.displayClientMessage(Component.literal("§7" + Component.translatable("dragon.interaction.stop_petting.front") + dragon.getName().getString() + Component.translatable("basic.chinese.tail") + Component.translatable("basic.symbol.period")), true);
 
         } else {
             //开始抚摸逻辑
@@ -197,7 +203,7 @@ public class DragonInteractionHandler {
 
             // 6. 显示奖励提示
             player.displayClientMessage(
-                    Component.literal("§5" + "（亲密值 +" + (baseIncrease + closenessBonus)*100 + "% | 积极情绪权重 +" + (baseMoodWeightIncrease)*100 + "%）"),
+                    Component.literal("§5" + "（" + Component.translatable("dragon.data.closeness") + " + " + (baseIncrease + closenessBonus)*100 + "% | " + Component.translatable("dragon.data.moodweight") + " + " + (baseMoodWeightIncrease)*100 + "%）"),
                     true
             );
 
@@ -233,7 +239,7 @@ public class DragonInteractionHandler {
             // 同样的权限检查
             if (!dragon.isTame() || dragon.getOwner() == null ||
                     !dragon.getOwner().getUUID().equals(player.getUUID())) {
-                player.displayClientMessage(Component.literal("§c这不是你驯服的龙！"), false);
+                player.displayClientMessage(Component.literal("§c" + Component.translatable("dragon.event.untamed_interaction")), false);
                 return;
             }
 

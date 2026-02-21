@@ -107,44 +107,44 @@ public class DragonDataUI {
         int lineHeight = 15;
 
         // 亲密度（带颜色条）
-        renderDataBar(guiGraphics, font, "亲密度", currentData.getCloseness(),
+        renderDataBar(guiGraphics, font, String.valueOf(Component.translatable("dragon.data.closeness")), currentData.getCloseness(),
                 currentData.getClosenessDescription(),
                 xPos - 15, lineY, 0xFF4CAF50); // 绿色
         lineY += lineHeight;
 
         if (!dragon_death) {
             // 心情（带颜色条）
-            renderDataBar(guiGraphics, font, "心情", currentData.getMoodWeight(),
+            renderDataBar(guiGraphics, font, String.valueOf(Component.translatable("dragon.data.moodweight")), currentData.getMoodWeight(),
                     currentData.getMoodDescription(),
                     xPos - 15, lineY, 0xFF2196F3); // 蓝色
             lineY += lineHeight;
 
             // 孤独值（带颜色条）
-            renderDataBar(guiGraphics, font, "孤独值", currentData.getLoneliness(),
+            renderDataBar(guiGraphics, font, String.valueOf(Component.translatable("dragon.data.loneliness")), currentData.getLoneliness(),
                     getLonelinessDescription(currentData.getLoneliness()),
                     xPos - 15, lineY, 0xFF9C27B0); // 紫色
             lineY += lineHeight;
 
             // 状态标志
-            renderStatusIndicator(guiGraphics, font, "孤独状态", currentData.getLonelyStatus(),
+            renderStatusIndicator(guiGraphics, font, String.valueOf(Component.translatable("dragon.data.islonely")), currentData.getLonelyStatus(),
                     xPos + PADDING, lineY);
             lineY += lineHeight;
 
-            renderStatusIndicator(guiGraphics, font, "主人靠近", currentData.getPlayerIsNear(),
+            renderStatusIndicator(guiGraphics, font, String.valueOf(Component.translatable("dragon.data.isownernear")), currentData.getPlayerIsNear(),
                     xPos + PADDING + 90, lineY - lineHeight);
 
             if (dragon_closeness >= 0.2) { // 只有亲密度达到0.2才会渲染互动请求时间
-                renderNumberIndicator(guiGraphics, font, "互动请求冷却", "s",currentData.getIRC()/20,
+                renderNumberIndicator(guiGraphics, font, String.valueOf(Component.translatable("dragon.data.IRC")), "s",currentData.getIRC()/20,
                         xPos + PADDING,lineY + 10, 0xFF2196F3);
             } else {
-                guiGraphics.drawString(font, ("§c" + "你和" + dragonName + "还不够亲密，它还不会找你摸..."), xPos+PADDING , lineY + 10, 0xFFFFFF);
+                guiGraphics.drawString(font, ("§c" + Component.translatable("dragon.dataUI.noIRHint.front" + dragonName + Component.translatable("dragon.dataUI.noIRHint.back"))), xPos+PADDING , lineY + 10, 0xFFFFFF);
             }
 
 
             // 恢复渲染状态
             poseStack.popPose();
         } else {
-            guiGraphics.drawString(font, ("§c" + "这条龙已经死亡。"), xPos+5 , lineY, 0xFFFFFF);
+            guiGraphics.drawString(font, ("§c" + Component.translatable("dragon.dataUI.dragon_death_hint")), xPos+5 , lineY, 0xFFFFFF);
         }
 
     }
@@ -192,7 +192,7 @@ public class DragonDataUI {
     private static void renderStatusIndicator(GuiGraphics guiGraphics, Font font,
                                               String label, boolean status,
                                               int x, int y) {
-        String statusText = status ? "§a是" : "§c否";
+        String statusText = status ? ("§a" + Component.translatable("basic.logic.yes")) : ("§c" + Component.translatable("basic.logic.yes"));
         guiGraphics.drawString(font, label + ": " + statusText, x, y, 0xFFFFFF);
 
         // 绘制状态点
@@ -208,10 +208,10 @@ public class DragonDataUI {
     }
 
     private static String getLonelinessDescription(float loneliness) {
-        if (loneliness == 0.0f) return "良好";
-        if (loneliness < 0.2f) return "轻微";
-        if (loneliness < 0.6f) return "中等";
-        return "严重";
+        if (loneliness == 0.0f) return String.valueOf(Component.translatable("dragon.data.loneliness.rate.great"));
+        if (loneliness < 0.2f) return String.valueOf(Component.translatable("dragon.data.loneliness.rate.slight"));
+        if (loneliness < 0.6f) return String.valueOf(Component.translatable("dragon.data.loneliness.rate.medium"));
+        return String.valueOf(Component.translatable("dragon.data.loneliness.rate.severe"));
     }
 
     private static void drawCenteredString(GuiGraphics guiGraphics, Font font, String text,
