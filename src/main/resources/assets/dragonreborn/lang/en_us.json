@@ -51,20 +51,23 @@
   "dragon.interaction.get_near.not_near.back": "now.",
   "dragon.interaction.get_near.near.front": "You are nearby",
   "dragon.interaction.get_near.near.back": "now.",
-  "dragon.interaction.player_leaving": "You have left your dragon ",
-  "dragon.interaction.player_get_back": "You have gone back to your dragon ",
   "dragon.interaction.player_ignored.front": "You have ignored the interaction request from your dragon ",
   "dragon.interaction.player_ignored.back": "",
-  "dragon.interaction.request_interaction": " wants you to interact with it.",
-  "dragon.interaction.interact_with_dead_dragon": " has died... It won't respond your petting...",
-  "dragon.interaction.low_closeness_to_pet": "You don't have enough closeness to pet ",
-  "dragon.interaction.stop_petting.front": "You stopped petting ",
+  "dragon.interaction.player_leaving": "You have left your dragon %s.",
+  "dragon.interaction.player_get_back": "You have gone back to your dragon %s.",
+  "dragon.interaction.get_near.not_near": "You are not nearby %s now.",
+  "dragon.interaction.get_near.near": "You are nearby %s now.",
+  "dragon.interaction.player_ignored": "You have ignored the interaction request from your dragon %s.",
+  "dragon.interaction.request_interaction": "%s wants you to interact with it.",
+  "dragon.interaction.interact_with_dead_dragon": "%s has died... It won't respond your petting...",
+  "dragon.interaction.low_closeness_to_pet": "You don't have enough closeness to pet %s.",
+  "dragon.interaction.stop_petting.front": "You stopped petting your dragon %s.",
+  "dragon.interaction.loot.fail": "A mighty magical power protects %s's body, you can not loot its corpse.",
+  "dragon.interaction.loot.owner_fail": "Why did you do that to this dragon that hatched, raised by yourself?",
 
   "dragon.event.hurt": "You accidentally hurt your dragon ",
   "dragon.event.untamed_interaction": "This is not your tamed dragon!",
 
   "basic.logic.yes": "Yes",
-  "basic.logic.no": "No",
-  "basic.symbol.period": ".",
-  "basic.chinese.tail": ""
+  "basic.logic.no": "No"
 }

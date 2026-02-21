@@ -42,29 +42,26 @@
   "dragon.dataUI.noIRHint.front": "你和",
   "dragon.dataUI.noIRHint.back": "还不够亲密，它还不会找你摸...",
   "dragon.dataUI.dragon_death_hint": "这条龙已经死亡。",
-  "dragon.interaction.interact_with_dead_dragon": "的躯体已然冰冷...它不会再回应你的抚摸了。",
-  "dragon.interaction.low_closeness_to_pet": "你的亲密值过低，不足以抚摸",
-  "dragon.interaction.stop_petting.front": "你停止抚摸",
+  "dragon.interaction.interact_with_dead_dragon": "%s的躯体已然冰冷...它不会再回应你的抚摸了。",
+  "dragon.interaction.low_closeness_to_pet": "你的亲密值过低，不足以抚摸你的龙%s。",
+  "dragon.interaction.stop_petting.front": "你停止抚摸你的龙%s了。",
+  "dragon.interaction.loot.fail": "这股强大的守护力量在排斥你。你无法搜刮%s的遗体。",
+  "dragon.interaction.loot.owner_fail": "你为什么要搜刮你亲手驯养并保护的龙的遗骸？",
 
   "dragon.event.hurt": "你误伤了你的龙",
   "dragon.event.untamed_interaction": "这不是你驯服的龙！",
 
   "basic.logic.yes": "是",
   "basic.logic.no": "否",
-  "basic.symbol.period": "。",
-  "basic.chinese.tail": "了",
 
   "key.category.dragonreborn": "龙亲密互动动作",
   "key.dragonreborn.pet_dragon": "抚摸龙",
   "text.dragonreborn.petting.hold_p_key": "对龙按下P键进行抚摸",
 
-  "dragon.interaction.get_near.not_near.front": "你现在没有靠近你的龙",
-  "dragon.interaction.get_near.not_near.back": "了。",
-  "dragon.interaction.get_near.near.front": "你现在靠近你的龙",
-  "dragon.interaction.get_near.near.back": "了。",
-  "dragon.interaction.player_leaving": "你现在远离了你的龙",
-  "dragon.interaction.player_get_back": "你现在回归了你的龙",
-  "dragon.interaction.player_ignored.front": "你忽略了你的龙",
-  "dragon.interaction.player_ignored.back": "的互动请求。",
-  "dragon.interaction.request_interaction": "想让你摸摸它。"
+  "dragon.interaction.player_leaving": "你现在远离了你的龙%s。",
+  "dragon.interaction.player_get_back": "你现在回归了你的龙%s。",
+  "dragon.interaction.get_near.not_near": "你现在没有靠近你的龙%s了。",
+  "dragon.interaction.get_near.near": "你现在靠近你的龙%s了。",
+  "dragon.interaction.player_ignored": "你忽略了你的龙%s的互动请求。",
+  "dragon.interaction.request_interaction": "%s想让你摸摸它。"
 }

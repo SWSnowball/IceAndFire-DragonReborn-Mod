@@ -9,6 +9,7 @@ import com.swsnowball.dragonreborn.data.DragonDataManager;
 import com.swsnowball.dragonreborn.data.DragonExtendedData;
 import com.swsnowball.dragonreborn.network.StartAnimationPacket;
 import com.swsnowball.dragonreborn.network.SyncAnimationStopPacket;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -63,22 +64,6 @@ public class DragonInteractionHandler {
         }
     }
 
-    // 供 Mixin 调用的静态方法：检查指定龙是否在最近被主人右键点击过
-    public static boolean wasRecentlyClickedByOwner(EntityDragonBase dragon) {
-        UUID dragonId = dragon.getUUID();
-        if (!dragonRightClickCache.containsKey(dragonId)) return false;
-
-        long clickTime = dragonRightClickCache.get(dragonId);
-        long currentTime = System.currentTimeMillis();
-
-        // 如果记录已过期，则清理并返回 false
-        if (currentTime - clickTime > CACHE_DURATION) {
-            dragonRightClickCache.remove(dragonId);
-            return false;
-        }
-        return true;
-    }
-
     // 在服务器每tick清理一次过期数据，非必需，因为检查时会自动清理
     public static void cleanCache() {
         long currentTime = System.currentTimeMillis();
@@ -91,7 +76,7 @@ public class DragonInteractionHandler {
             // 检查龙是否被驯服并且主人是玩家
             if (!dragon.isTame() || dragon.getOwner() == null) {
                 player.displayClientMessage(
-                        Component.literal("§c" + Component.translatable("dragon.event.untamed_interaction")),
+                        Component.translatable("dragon.event.untamed_interaction").withStyle(ChatFormatting.RED),
                         false
                 );
                 return;
@@ -99,7 +84,7 @@ public class DragonInteractionHandler {
 
             if (!dragon.getOwner().getUUID().equals(player.getUUID())) {
                 player.displayClientMessage(
-                        Component.literal("§c" + Component.translatable("dragon.event.untamed_interaction")),
+                        Component.translatable("dragon.event.untamed_interaction").withStyle(ChatFormatting.RED),
                         false
                 );
                 return;
@@ -118,7 +103,8 @@ public class DragonInteractionHandler {
         // 基础检查：龙是否已死
         if (dragon.isModelDead()) {
             player.displayClientMessage(
-                    Component.literal("§2" + dragon.getName().getString() + Component.translatable("dragon.interaction.interact_with_dead_dragon")),
+                    Component.translatable("dragon.interaction.interact_with_dead_dragon", dragon.getName())
+                            .withStyle(ChatFormatting.DARK_GREEN),
                     true);
             return;
         }
@@ -126,7 +112,8 @@ public class DragonInteractionHandler {
         if (data.getCloseness() < 0.2) { // 亲密度过低拒绝抚摸
             if (!DragonRebornConfig.ALLOW_TEXT_SHOWING.get()) {
                 player.displayClientMessage(
-                        Component.literal("§6" + Component.translatable("dragon.interaction.low_closeness_to_pet") + dragon.getName().getString() + Component.translatable("basic.symbol.period")),
+                        Component.translatable("dragon.interaction.low_closeness_to_pet", dragon.getName())
+                                .withStyle(ChatFormatting.GOLD),
                         false
                 );
             }
@@ -162,7 +149,10 @@ public class DragonInteractionHandler {
                 DragonRebornMod.NETWORK.send(PacketDistributor.TRACKING_ENTITY.with(() -> dragon), stopPacket);
             }
             // 给玩家反馈
-            player.displayClientMessage(Component.literal("§7" + Component.translatable("dragon.interaction.stop_petting.front") + dragon.getName().getString() + Component.translatable("basic.chinese.tail") + Component.translatable("basic.symbol.period")), true);
+            player.displayClientMessage(
+                    Component.translatable("dragon.interaction.stop_petting", dragon.getName())
+                            .withStyle(ChatFormatting.GRAY),
+                    true);
 
         } else {
             //开始抚摸逻辑
@@ -202,10 +192,12 @@ public class DragonInteractionHandler {
             DragonDataManager.saveData(dragon, data);
 
             // 6. 显示奖励提示
-            player.displayClientMessage(
-                    Component.literal("§5" + "（" + Component.translatable("dragon.data.closeness") + " + " + (baseIncrease + closenessBonus)*100 + "% | " + Component.translatable("dragon.data.moodweight") + " + " + (baseMoodWeightIncrease)*100 + "%）"),
-                    true
-            );
+            Component message = Component.literal("§5（")
+                    .append(Component.translatable("dragon.data.closeness"))
+                    .append(" + " + ((baseIncrease + closenessBonus) * 100) + "% | ")
+                    .append(Component.translatable("dragon.data.moodweight"))
+                    .append(" + " + (baseMoodWeightIncrease * 100) + "%）");
+            player.displayClientMessage(message, true);
 
             // 7. 播放音效
             serverLevel.playSound(null, dragon.blockPosition(),
@@ -239,7 +231,7 @@ public class DragonInteractionHandler {
             // 同样的权限检查
             if (!dragon.isTame() || dragon.getOwner() == null ||
                     !dragon.getOwner().getUUID().equals(player.getUUID())) {
-                player.displayClientMessage(Component.literal("§c" + Component.translatable("dragon.event.untamed_interaction")), false);
+                player.displayClientMessage(Component.translatable("dragon.event.untamed_interaction").withStyle(ChatFormatting.RED), false);
                 return;
             }
 

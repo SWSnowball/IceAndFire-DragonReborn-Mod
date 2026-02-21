@@ -4,6 +4,7 @@ import com.github.alexthe666.iceandfire.entity.EntityDragonBase;
 import com.github.alexthe666.iceandfire.item.IafItemRegistry;
 import com.github.alexthe666.iceandfire.item.ItemSummoningCrystal;
 import com.swsnowball.dragonreborn.config.DragonRebornConfig;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
@@ -83,7 +84,8 @@ public class MoodManager {
                         data.setLonelyStatus(true);
                         if (!DragonRebornConfig.ALLOW_TEXT_SHOWING.get()) {
                             owner.displayClientMessage(
-                                    Component.literal("§6" + Component.translatable("dragon.interaction.player_leaving") + dragon.getName().getString() + Component.translatable("basic.symbol.period")),
+                                    Component.translatable("dragon.interaction.player_leaving", dragon.getName())
+                                            .withStyle(ChatFormatting.GOLD),
                                     false
                             );
                         }
@@ -105,7 +107,8 @@ public class MoodManager {
                         data.setLonelyStatus(false);
                         if (!DragonRebornConfig.ALLOW_TEXT_SHOWING.get()) {
                             owner.displayClientMessage(
-                                    Component.literal("§6" + Component.translatable("dragon.interaction.player_get_back") + dragon.getName().getString() + Component.translatable("basic.symbol.period")),
+                                    Component.translatable("dragon.interaction.player_get_back", dragon.getName())
+                                            .withStyle(ChatFormatting.GOLD),
                                     false
                             );
                         }
@@ -116,7 +119,8 @@ public class MoodManager {
                     if (data.getPlayerIsNear() && distance > 10 * 10) {
                         data.setPlayerIsNear(false);
                         owner.displayClientMessage(
-                                Component.literal("§3" + Component.translatable("dragon.interaction.get_near.not_near.front") + data.getDragonName() + Component.translatable("dragon.interaction.get_near.not_near.back")),
+                                Component.translatable("dragon.interaction.get_near.not_near", data.getDragonName())
+                                        .withStyle(ChatFormatting.AQUA),
                                 true);
                     }
 
@@ -126,9 +130,9 @@ public class MoodManager {
                         if (!data.getPlayerIsNear()) {
                             data.setPlayerIsNear(true);
                             owner.displayClientMessage(
-                                    Component.literal("§3" + Component.translatable("dragon.interaction.get_near.near.front") + data.getDragonName() + Component.translatable("dragon.interaction.get_near.near.back")),
-                                    true
-                            );
+                                    Component.translatable("dragon.interaction.get_near.near", data.getDragonName())
+                                            .withStyle(ChatFormatting.AQUA),
+                                    true);
                         }
                     }
                     data.addLoneliness(-0.0003472f);
@@ -136,10 +140,11 @@ public class MoodManager {
                     if (data.getLonelyStatus()) {
                         data.setLonelyStatus(false);
                         if (!DragonRebornConfig.ALLOW_TEXT_SHOWING.get()) {
-                            owner.displayClientMessage(
-                                    Component.literal("§6" + Component.translatable("dragon.interaction.player_get_back") + dragon.getName().getString() + Component.translatable("basic.symbol.period")),
-                                    false
-                            );
+                                owner.displayClientMessage(
+                                        Component.translatable("dragon.interaction.player_get_back", dragon.getName())
+                                                .withStyle(ChatFormatting.GOLD),
+                                        false
+                                );
                         }
                         showText(level, dragon, data, owner, "player_get_back");
                         setDragonCommand(dragon,2);
@@ -163,10 +168,11 @@ public class MoodManager {
                 if (data.getWaitingTime() >= 60) { // 若玩家超过60s无反应则自行离开
                     data.setWaitingTime(data.getWaitingTime() - 60);
                     if (!DragonRebornConfig.ALLOW_TEXT_SHOWING.get()) {
-                        owner.displayClientMessage(
-                                Component.translatable("dragon.interaction.player_ignored.front" + dragon.getName().getString()),
-                                true
-                        );
+                            owner.displayClientMessage(
+                                    Component.translatable("dragon.interaction.player_ignored", dragon.getName())
+                                            .withStyle(ChatFormatting.GOLD),
+                                    true
+                            );
                     }
                     showText(level, dragon, data, owner, "interaction_ignored");
                     float moodChange = 0.0f;
@@ -179,7 +185,9 @@ public class MoodManager {
                     }
                     data.setMoodWeight(data.getMoodWeight() - moodChange);
                     owner.displayClientMessage(
-                            Component.literal("§5" + "(" + String.valueOf(Component.translatable("dragon.data.moodweight")) + " - " + moodChange * 100 + "%)"),
+                            Component.literal("§5(")
+                                    .append(Component.translatable("dragon.data.moodweight"))
+                                    .append(" - " + (moodChange * 100) + "%)"),
                             true
                     );
                     level.playSound(null, dragon.blockPosition(),
@@ -258,10 +266,13 @@ public class MoodManager {
             oldCommand = dragon.getCommand();
             data.setWaitingForPlayer(true);
             if (!DragonRebornConfig.ALLOW_TEXT_SHOWING.get()) {
-                player.displayClientMessage(
-                        Component.literal("§6" + dragon.getName().getString() + Component.translatable("dragon.interaction.request_interaction")),
-                        false
-                );
+                if (!DragonRebornConfig.ALLOW_TEXT_SHOWING.get()) {
+                    player.displayClientMessage(
+                            Component.translatable("dragon.interaction.request_interaction", dragon.getName())
+                                    .withStyle(ChatFormatting.GOLD),
+                            false
+                    );
+                }
             }
             showText(level, dragon, data, player, "interaction_request");
             dragon.setCommand(2);

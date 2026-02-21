@@ -110,17 +110,17 @@ public class DragonExtendedData {
     }
 
     // 获取心情描述（简单版）
-    public String getMoodDescription() {
-        if (moodWeight > 0.7f) return String.valueOf(Component.translatable("dragon.data.mood.rate.happy"));
-        if (moodWeight < 0.3f) return String.valueOf(Component.translatable("dragon.data.mood.rate.sad"));
-        return String.valueOf(Component.translatable("dragon.data.mood.rate.calm"));
+    public Component getMoodDescription() {
+        if (moodWeight > 0.7f) return Component.translatable("dragon.data.mood.rate.happy");
+        if (moodWeight < 0.3f) return Component.translatable("dragon.data.mood.rate.sad");
+        return Component.translatable("dragon.data.mood.rate.calm");
     }
 
     // 获取亲密度描述（简单版）
-    public String getClosenessDescription() {
-        if (closeness > 0.7f) return String.valueOf(Component.translatable("dragon.data.closeness.pretty"));
-        if (closeness > 0.5f) return String.valueOf(Component.translatable("dragon.data.closeness.high"));
-        if (closeness > 0.2f) return String.valueOf(Component.translatable("dragon.data.closeness.medium"));
-        return String.valueOf(Component.translatable("dragon.data.closeness.low"));
+    public Component getClosenessDescription() {
+        if (closeness > 0.7f) return Component.translatable("dragon.data.closeness.pretty");
+        if (closeness > 0.5f) return Component.translatable("dragon.data.closeness.high");
+        if (closeness > 0.2f) return Component.translatable("dragon.data.closeness.medium");
+        return Component.translatable("dragon.data.closeness.low");
     }
 }

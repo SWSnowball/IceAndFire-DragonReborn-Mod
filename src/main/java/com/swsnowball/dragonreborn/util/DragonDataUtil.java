@@ -7,23 +7,24 @@ import java.util.Random;
 
 public class DragonDataUtil {
     public static String getHealthDescription(float current, float max_value) {
-        float hp_perc = current / max_value; // 生命值百分比（Health Point Percent）
+        float hp_perc = current / max_value;
+        Component component;
         if (hp_perc == 1) {
-            return String.valueOf(Component.translatable("dragon.attributes.health.no_hurt"));
+            component = Component.translatable("dragon.attributes.health.no_hurt");
         } else if (hp_perc >= 0.8) {
-            return String.valueOf(Component.translatable("dragon.attributes.health.healthy"));
-        } else if (hp_perc >= 0.7 && hp_perc < 0.8) {
-            return String.valueOf(Component.translatable("dragon.attributes.health.little_wound"));
-        } else if (hp_perc >= 0.4 && hp_perc < 0.7) {
-            return String.valueOf(Component.translatable("dragon.attributes.health.hurt"));
-        } else if (hp_perc >= 0.1 && hp_perc < 0.4) {
-            return String.valueOf(Component.translatable("dragon.attributes.health.serious"));
-        } else if (hp_perc > 0 && hp_perc < 0.1) {
-            return String.valueOf(Component.translatable("dragon.attributes.health.dying"));
-        } else if (hp_perc == 0.0) {
-            return String.valueOf(Component.translatable("dragon.attributes.health.dead"));
+            component = Component.translatable("dragon.attributes.health.healthy");
+        } else if (hp_perc >= 0.7) {
+            component = Component.translatable("dragon.attributes.health.little_wound");
+        } else if (hp_perc >= 0.4) {
+            component = Component.translatable("dragon.attributes.health.hurt");
+        } else if (hp_perc >= 0.1) {
+            component = Component.translatable("dragon.attributes.health.serious");
+        } else if (hp_perc > 0) {
+            component = Component.translatable("dragon.attributes.health.dying");
+        } else {
+            component = Component.translatable("dragon.attributes.health.dead");
         }
-        return null;
+        return component.getString(); // 在客户端调用时才能正确翻译
     }
 
     public static ChatFormatting getHealthTextColor(float current, float max_value) {

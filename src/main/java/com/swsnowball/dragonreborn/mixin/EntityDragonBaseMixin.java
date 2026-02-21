@@ -2,6 +2,7 @@ package com.swsnowball.dragonreborn.mixin;
 
 import com.github.alexthe666.citadel.animation.Animation;
 import com.github.alexthe666.iceandfire.item.ItemDragonHorn;
+import net.minecraft.ChatFormatting;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import org.apache.logging.log4j.Logger;
@@ -59,7 +60,7 @@ public abstract class EntityDragonBaseMixin {
                         // 非主人玩家，执行保护
                         if (!dragon.level().isClientSide) {
                             player.displayClientMessage(
-                                    Component.literal("§c这股强大的守护力量在排斥你。你无法搜刮" + dragon.getName().getString() + "的遗骸。"),
+                                    Component.translatable("dragon.interaction.loot.fail").withStyle(ChatFormatting.RED),
                                     true
                             );
                             dragon.setDeathStage(0); // 保险起见把龙的DeathStage设为0
@@ -70,7 +71,7 @@ public abstract class EntityDragonBaseMixin {
                     }
                     if (isOwner) {
                         player.displayClientMessage(
-                                Component.literal("§c你为什么要搜刮你亲手驯养并保护的龙的遗骸？"),
+                                Component.translatable("dragon.interaction.loot.owner_fail").withStyle(ChatFormatting.RED),
                                 true
                         );
                         cir.setReturnValue(InteractionResult.FAIL);
@@ -150,10 +151,12 @@ public abstract class EntityDragonBaseMixin {
                 data.setMoodWeight(data.getMoodWeight() + moodWeight_addition);
             }
             dragon.playSound(SoundEvents.GENERIC_EAT, 1.0f, 1.0f);
-            player.displayClientMessage( Component.literal("§a（亲密值 +" +
-                    round(closeness_addition * 100, 2) +
-                    "% | 积极情绪权重 +" +
-                    round(moodWeight_addition, 2) * 100 + "%）"), true);
+            Component message = Component.literal("§a（")
+                    .append(Component.translatable("dragon.data.closeness"))
+                    .append(" +" + round(closeness_addition * 100, 2) + "% | ")
+                    .append(Component.translatable("dragon.data.moodweight"))
+                    .append(" +" + (round(moodWeight_addition, 2) * 100) + "%）");
+            player.displayClientMessage(message, true);
         }
     }
 }
