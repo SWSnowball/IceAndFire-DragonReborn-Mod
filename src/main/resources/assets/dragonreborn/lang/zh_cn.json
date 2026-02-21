@@ -47,6 +47,8 @@
   "dragon.interaction.stop_petting.front": "你停止抚摸你的龙%s了。",
   "dragon.interaction.loot.fail": "这股强大的守护力量在排斥你。你无法搜刮%s的遗体。",
   "dragon.interaction.loot.owner_fail": "你为什么要搜刮你亲手驯养并保护的龙的遗骸？",
+  "dragon.dataUI.noIRHint": "你和%s还不够亲密，它还不会找你摸...",
+  "dragon.dataUI.health_description": "（%s）",
 
   "dragon.event.hurt": "你误伤了你的龙",
   "dragon.event.untamed_interaction": "这不是你驯服的龙！",

@@ -151,7 +151,7 @@ public abstract class EntityDragonBaseMixin {
                 data.setMoodWeight(data.getMoodWeight() + moodWeight_addition);
             }
             dragon.playSound(SoundEvents.GENERIC_EAT, 1.0f, 1.0f);
-            Component message = Component.literal("§a（")
+            Component message = Component.literal("（").withStyle(ChatFormatting.GREEN)
                     .append(Component.translatable("dragon.data.closeness"))
                     .append(" +" + round(closeness_addition * 100, 2) + "% | ")
                     .append(Component.translatable("dragon.data.moodweight"))

@@ -12,9 +12,6 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.util.Mth;
 import com.swsnowball.dragonreborn.config.DragonRebornConfig;
 
-import static com.swsnowball.dragonreborn.util.DragonDataUtil.getHealthDescription;
-import static com.swsnowball.dragonreborn.util.DragonDataUtil.getHealthTextColorCode;
-
 public class DragonDataUI {
     private static final Minecraft MC = Minecraft.getInstance();
 
@@ -107,6 +104,10 @@ public class DragonDataUI {
         int lineY = titleY + 17;
         int lineHeight = 15;
 
+        drawCenteredString(guiGraphics, font, Component.literal(dragonName).withStyle(ChatFormatting.GOLD)
+                        .append(Component.translatable("dragon.dataUI.health_description", getHealthDescriptionComponent(dragon_health, dragon_maxHealth).getString())),
+                xPos + UI_WIDTH / 2, titleY, 0xFFFFFF);
+
 // 亲密度
         renderDataBar(guiGraphics, font,
                 Component.translatable("dragon.data.closeness"),
@@ -152,7 +153,6 @@ public class DragonDataUI {
                         "s", currentData.getIRC() / 20,
                         xPos + PADDING, lineY + 10, 0xFF2196F3);
             } else {
-                // 不够亲密提示 - 使用带占位符的单个键
                 Component hint = Component.translatable("dragon.dataUI.noIRHint", dragonName)
                         .withStyle(ChatFormatting.RED);
                 guiGraphics.drawString(font, hint, xPos + PADDING, lineY + 10, 0xFFFFFF);
@@ -176,16 +176,19 @@ public class DragonDataUI {
         Component labelWithColon = Component.literal("").append(label).append(":");
         guiGraphics.drawString(font, labelWithColon, x + 15, y, 0xFFFFFF);
 
-        // 其余代码保持不变...
         // 绘制背景条、前景条、边框、数值和描述（描述保持字符串）
         int barWidth = 100;
         int barHeight = 8;
         int barX = x + 50;
         int barY = y + 2;
 
-        guiGraphics.fill(barX, barY, barX + barWidth, barY + barHeight, 0x66000000);
+        // 绘制前景条（根据值）
         int fillWidth = (int)(barWidth * value);
         guiGraphics.fill(barX, barY, barX + fillWidth, barY + barHeight, color);
+
+        // 绘制边框
+        guiGraphics.fill(barX, barY, barX + barWidth, barY + 1, 0xFFFFFFFF);
+        guiGraphics.fill(barX, barY + barHeight - 1, barX + barWidth, barY + barHeight, 0xFFFFFFFF);
         guiGraphics.fill(barX, barY, barX + 1, barY + barHeight, 0xFFFFFFFF);
         guiGraphics.fill(barX + barWidth - 1, barY, barX + barWidth, barY + barHeight, 0xFFFFFFFF);
 

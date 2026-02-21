@@ -46,6 +46,7 @@
   "dragon.dataUI.noIRHint.front": "You are not close enough to ",
   "dragon.dataUI.noIRHint.back": ", it will not request petting...",
   "dragon.dataUI.dragon_death_hint": "This dragon has already dead.",
+  "dragon.dataUI.health_description": "(%s)",
 
   "dragon.interaction.get_near.not_near.front": "You are not nearby",
   "dragon.interaction.get_near.not_near.back": "now.",
@@ -64,6 +65,7 @@
   "dragon.interaction.stop_petting.front": "You stopped petting your dragon %s.",
   "dragon.interaction.loot.fail": "A mighty magical power protects %s's body, you can not loot its corpse.",
   "dragon.interaction.loot.owner_fail": "Why did you do that to this dragon that hatched, raised by yourself?",
+  "dragon.dataUI.noIRHint": "You are not close enough with %s, it has no interaction requests.",
 
   "dragon.event.hurt": "You accidentally hurt your dragon ",
   "dragon.event.untamed_interaction": "This is not your tamed dragon!",

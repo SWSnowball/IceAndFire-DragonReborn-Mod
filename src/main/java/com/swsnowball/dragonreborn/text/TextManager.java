@@ -414,12 +414,12 @@ public class TextManager {
         result = result.replace("{龙名}", data.getDragonName());
 
         // 亲密度描述
-        result = result.replace("<亲密度>", data.getClosenessDescription());
-        result = result.replace("{亲密度}", data.getClosenessDescription());
+        result = result.replace("<亲密度>", data.getClosenessDescription().getString());
+        result = result.replace("{亲密度}", data.getClosenessDescription().getString());
 
         // 心情描述
-        result = result.replace("<心情>", data.getMoodDescription());
-        result = result.replace("{心情}", data.getMoodDescription());
+        result = result.replace("<心情>", data.getMoodDescription().getString());
+        result = result.replace("{心情}", data.getMoodDescription().getString());
 
         // 上下文变量
         if (context != null) {
