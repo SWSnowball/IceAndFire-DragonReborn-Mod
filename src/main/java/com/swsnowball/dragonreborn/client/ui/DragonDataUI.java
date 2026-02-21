@@ -12,6 +12,8 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.util.Mth;
 import com.swsnowball.dragonreborn.config.DragonRebornConfig;
 
+import static com.swsnowball.dragonreborn.util.DragonDataUtil.getHealthTextColor;
+
 public class DragonDataUI {
     private static final Minecraft MC = Minecraft.getInstance();
 
@@ -104,9 +106,11 @@ public class DragonDataUI {
         int lineY = titleY + 17;
         int lineHeight = 15;
 
-        drawCenteredString(guiGraphics, font, Component.literal(dragonName).withStyle(ChatFormatting.GOLD)
-                        .append(Component.translatable("dragon.dataUI.health_description", getHealthDescriptionComponent(dragon_health, dragon_maxHealth).getString())),
-                xPos + UI_WIDTH / 2, titleY, 0xFFFFFF);
+        if (getHealthTextColor(dragon_health, dragon_maxHealth) != null) {
+            drawCenteredString(guiGraphics, font, Component.literal(dragonName).withStyle(ChatFormatting.GOLD)
+                            .append(Component.translatable("dragon.dataUI.health_description", getHealthDescriptionComponent(dragon_health, dragon_maxHealth).getString()).withStyle(getHealthTextColor(dragon_health, dragon_maxHealth))),
+                    xPos + UI_WIDTH / 2, titleY, 0xFFFFFF);
+        }
 
 // 亲密度
         renderDataBar(guiGraphics, font,
