@@ -4,12 +4,10 @@ package com.swsnowball.dragonreborn;
 import com.swsnowball.dragonreborn.config.DragonRebornConfig;
 import com.swsnowball.dragonreborn.event.DragonLookToPlayerAnimationHandler;
 import com.swsnowball.dragonreborn.event.OwnerHurtDragonListener;
+import com.swsnowball.dragonreborn.init.ModEntities;
 import com.swsnowball.dragonreborn.init.ModItems;
 import com.swsnowball.dragonreborn.init.ModCreativeTabs;
-import com.swsnowball.dragonreborn.network.PetDragonPacket;
-import com.swsnowball.dragonreborn.network.StartAnimationPacket;
-import com.swsnowball.dragonreborn.network.StopPettingPacket;
-import com.swsnowball.dragonreborn.network.SyncAnimationStopPacket;
+import com.swsnowball.dragonreborn.network.*;
 import com.swsnowball.dragonreborn.text.TextManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -51,6 +49,8 @@ public class DragonRebornMod {
         // 注册物品、创造标签等
         ModItems.ITEMS.register(modEventBus);
         ModCreativeTabs.CREATIVE_MODE_TABS.register(modEventBus);
+
+        ModEntities.ENTITY_TYPES.register(modEventBus);
 
         // 注册Forge事件总线
         MinecraftForge.EVENT_BUS.register(this);
@@ -94,6 +94,8 @@ public class DragonRebornMod {
                     StopPettingPacket::encode, StopPettingPacket::new, StopPettingPacket::handle);
             NETWORK.registerMessage(packetId++, SyncAnimationStopPacket.class,
                     SyncAnimationStopPacket::encode, SyncAnimationStopPacket::new, SyncAnimationStopPacket::handle);
+            NETWORK.registerMessage(packetId++, SyncDizzinessPacket.class,
+                    SyncDizzinessPacket::encode, SyncDizzinessPacket::new, SyncDizzinessPacket::handle);
             LOGGER.info("网络包注册完成，共注册了{}个包。", packetId);
         });
     }

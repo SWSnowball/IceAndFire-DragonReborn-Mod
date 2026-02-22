@@ -1,5 +1,6 @@
 package com.swsnowball.dragonreborn.client.animation;
 
+import com.swsnowball.dragonreborn.client.DragonAnimationManager;
 import com.swsnowball.dragonreborn.client.SimplePettingAnimation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -16,6 +17,7 @@ public class ClientAnimationHandler {
         if (event.phase == TickEvent.Phase.END) {
             // 1. 更新所有抚摸动画
             SimplePettingAnimation.updateAllAnimations();
+            DragonAnimationManager.updateAll();
         }
     }
 }

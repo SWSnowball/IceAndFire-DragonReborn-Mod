@@ -60,6 +60,15 @@ public class ModItems {
             )
     );
 
+    public static final RegistryObject<Item> DRAGON_DIZZINESS_SNOWBALL = ITEMS.register(
+            "dragon_dizziness_snowball",  // 注册名称（小写，使用下划线分隔）
+            () -> new DragonDizzinessSnowballItem(
+                    new Item.Properties()
+                            .stacksTo(16)
+                            .rarity(Rarity.UNCOMMON)
+            )
+    );
+
     // 后续可以在这里添加更多物品
     // public static final RegistryObject<Item> EXAMPLE_ITEM = ITEMS.register(...)
 }

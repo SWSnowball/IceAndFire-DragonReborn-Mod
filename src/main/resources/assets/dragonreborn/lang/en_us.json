@@ -13,6 +13,9 @@
 
   "item.dragonreborn.dragon_sleep_stick": "Dragon Sleep Stick",
   "item.dragonreborn.dragon_sleep_stick.tooltip": "Can allow/disallow your dragon to sleep",
+
+  "item.dragonreborn.dragon_dizziness_snowball": "Dragon Dizziness Snowball",
+  "item.dragonreborn.dragon_sleep_stick.tooltip": "Throw it to a dragon to make it feel dizzy for 10s, then you can escape！",
   "itemGroup.dragonreborn": "Dragon Reborn",
 
   "key.category.dragonreborn": "Dragon Interactions",
@@ -62,13 +65,18 @@
   "dragon.interaction.request_interaction": "%s wants you to interact with it.",
   "dragon.interaction.interact_with_dead_dragon": "%s has died... It won't respond your petting...",
   "dragon.interaction.low_closeness_to_pet": "You don't have enough closeness to pet %s.",
-  "dragon.interaction.stop_petting.front": "You stopped petting your dragon %s.",
+  "dragon.interaction.stop_petting": "You stopped petting your dragon %s.",
   "dragon.interaction.loot.fail": "A mighty magical power protects %s's body, you can not loot its corpse.",
   "dragon.interaction.loot.owner_fail": "Why did you do that to this dragon that hatched, raised by yourself?",
   "dragon.dataUI.noIRHint": "You are not close enough with %s, it has no interaction requests.",
 
   "dragon.event.hurt": "You accidentally hurt your dragon ",
   "dragon.event.untamed_interaction": "This is not your tamed dragon!",
+
+  "entity.snowball.not_hit": "You didn't hit any dragons!",
+  "entity.snowball.hit_owner_dragon": "You hit your own dragon %s!",
+  "entity.snowball.hit_enemy_dragon": "You hit the enemy dragon %s.",
+  "entity.snowball.hit_other_entity": "You hit the %s.",
 
   "basic.logic.yes": "Yes",
   "basic.logic.no": "No"

@@ -2,10 +2,8 @@ package com.swsnowball.dragonreborn.client.animation;
 
 import com.github.alexthe666.citadel.client.model.AdvancedModelBox;
 import com.github.alexthe666.citadel.client.model.TabulaModel;
-import com.github.alexthe666.iceandfire.entity.EntityDragonBase;
 import com.swsnowball.dragonreborn.client.SimplePettingAnimation;
-import com.swsnowball.dragonreborn.data.DragonDataManager;
-import com.swsnowball.dragonreborn.data.DragonExtendedData;
+import com.swsnowball.dragonreborn.client.SimplePettingAnimation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 

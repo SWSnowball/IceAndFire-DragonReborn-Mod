@@ -2,9 +2,13 @@ package com.swsnowball.dragonreborn.mixin;
 
 import com.github.alexthe666.citadel.animation.Animation;
 import com.github.alexthe666.iceandfire.item.ItemDragonHorn;
+import com.swsnowball.dragonreborn.client.DragonAnimationManager;
+import com.swsnowball.dragonreborn.client.animation.IDragonAnimation;
 import net.minecraft.ChatFormatting;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import org.apache.logging.log4j.Logger;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
@@ -26,6 +30,7 @@ import org.apache.logging.log4j.LogManager;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.Inject;
 import com.swsnowball.dragonreborn.client.SimplePettingAnimation;
+import com.swsnowball.dragonreborn.client.animation.DizzinessAnimationApplier;
 
 import static com.swsnowball.dragonreborn.util.DragonNBTUtil.*;
 import static com.swsnowball.dragonreborn.util.MathUtil.round;
@@ -90,9 +95,11 @@ public abstract class EntityDragonBaseMixin {
     )
     private void onIsBlinking(CallbackInfoReturnable<Boolean> cir) {
         EntityDragonBase dragon = (EntityDragonBase) (Object) this;
+        IDragonAnimation current = com.swsnowball.dragonreborn.client.DragonAnimationManager.getAnimation(dragon.getId());
+        boolean isDissy = current instanceof DizzinessAnimationApplier;
 
-        // 检查是否有抚摸动画在播放
-        if (SimplePettingAnimation.hasAnimation(dragon.getId())) {
+        // 检查是否有抚摸/眩晕动画在播放
+        if (SimplePettingAnimation.hasAnimation(dragon.getId()) || isDissy) {
             // 强制龙处于眨眼状态（闭眼）
             cir.setReturnValue(true);
             cir.cancel();

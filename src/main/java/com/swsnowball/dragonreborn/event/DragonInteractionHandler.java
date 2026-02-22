@@ -150,7 +150,7 @@ public class DragonInteractionHandler {
             }
             // 给玩家反馈
             player.displayClientMessage(
-                    Component.translatable("dragon.interaction.stop_petting", dragon.getName())
+                    Component.translatable("dragon.interaction.stop_petting", dragon.getName().getString())
                             .withStyle(ChatFormatting.GRAY),
                     true);
 

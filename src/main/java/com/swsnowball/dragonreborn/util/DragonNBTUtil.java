@@ -7,6 +7,7 @@ import com.github.alexthe666.iceandfire.entity.EntityLightningDragon;
 import com.github.alexthe666.iceandfire.item.ItemSummoningCrystal;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 
@@ -61,6 +62,19 @@ public class DragonNBTUtil {
 
     public static void setAllowDragonToSleep(EntityDragonBase dragon, boolean choice) {
         dragon.getPersistentData().putBoolean("AllowToSleep", choice);
+    }
+
+    public static int getDragonDizziness(Entity dragon) {
+        CompoundTag persistentData = dragon.getPersistentData();
+        // 如果没有设置过，默认允许睡眠
+        if (!persistentData.contains("DizzyTime")) {
+            persistentData.putInt("DizzyTime", 0);
+        }
+        return persistentData.getInt("DizzyTime");
+    }
+
+    public static void setDragonDizziness(Entity dragon, int time) {
+        dragon.getPersistentData().putInt("DizzyTime", time);
     }
 
     public static void setDragonCommand(EntityDragonBase dragon, int command) {

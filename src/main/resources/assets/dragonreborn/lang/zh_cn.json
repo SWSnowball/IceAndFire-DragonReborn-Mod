@@ -11,6 +11,9 @@
   "item.dragonreborn.protector_defuser": "护符去除器",
   "item.dragonreborn.protector_defuser.tooltip": "用于去除龙族护身符的保护效果",
 
+  "item.dragonreborn.dragon_dizziness_snowball": "龙眩晕雪球",
+  "item.dragonreborn.dragon_sleep_stick.tooltip": "向龙投掷可以使其眩晕10s，借此逃离！",
+
   "item.dragonreborn.dragon_sleep_stick": "睡眠龙杖",
   "item.dragonreborn.dragon_sleep_stick.tooltip": "用于允许/禁止龙自行睡眠的工具",
   "itemGroup.dragonreborn": "龙魂复生",
@@ -47,6 +50,7 @@
   "dragon.interaction.stop_petting.front": "你停止抚摸你的龙%s了。",
   "dragon.interaction.loot.fail": "这股强大的守护力量在排斥你。你无法搜刮%s的遗体。",
   "dragon.interaction.loot.owner_fail": "你为什么要搜刮你亲手驯养并保护的龙的遗骸？",
+  "dragon.interaction.stop_petting": "你停止抚摸%s了。",
   "dragon.dataUI.noIRHint": "你和%s还不够亲密，它还不会找你摸...",
   "dragon.dataUI.health_description": "（%s）",
 
@@ -55,6 +59,11 @@
 
   "basic.logic.yes": "是",
   "basic.logic.no": "否",
+
+  "entity.snowball.not_hit": "你没有击中任何龙！",
+  "entity.snowball.hit_owner_dragon": "你击中了你自己的龙%s！",
+  "entity.snowball.hit_enemy_dragon": "你击中了敌对龙%s。",
+  "entity.snowball.hit_other_entity": "你击中了%s。",
 
   "key.category.dragonreborn": "龙亲密互动动作",
   "key.dragonreborn.pet_dragon": "抚摸龙",
@@ -65,5 +74,11 @@
   "dragon.interaction.get_near.not_near": "你现在没有靠近你的龙%s了。",
   "dragon.interaction.get_near.near": "你现在靠近你的龙%s了。",
   "dragon.interaction.player_ignored": "你忽略了你的龙%s的互动请求。",
-  "dragon.interaction.request_interaction": "%s想让你摸摸它。"
+  "dragon.interaction.request_interaction": "%s想让你摸摸它。",
+  "dragon.interaction.get_near.not_near.front": "You are not nearby",
+  "dragon.interaction.get_near.not_near.back": "now.",
+  "dragon.interaction.get_near.near.front": "You are nearby",
+  "dragon.interaction.get_near.near.back": "now.",
+  "dragon.interaction.player_ignored.front": "You have ignored the interaction request from your dragon ",
+  "dragon.interaction.player_ignored.back": ""
 }
