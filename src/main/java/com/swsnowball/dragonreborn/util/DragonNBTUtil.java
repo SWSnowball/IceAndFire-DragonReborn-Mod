@@ -116,19 +116,6 @@ public class DragonNBTUtil {
         dragon.load(nbt);
     }
 
-    public static void setHasReset(EntityDragonBase dragon, boolean state) {
-        dragon.getPersistentData().putBoolean("HasReset", state);
-    }
-
-    public static boolean getHasReset(EntityDragonBase dragon) {
-        CompoundTag persistentData = dragon.getPersistentData();
-        // 如果没有设置过，默认为true
-        if (!persistentData.contains("HasReset")) {
-            persistentData.putBoolean("HasReset", true);
-        }
-        return persistentData.getBoolean("HasReset");
-    }
-
     // 检查龙是否已被保护
     public static boolean isDragonProtected(EntityDragonBase dragon) {
         CompoundTag persistentData = dragon.getPersistentData();

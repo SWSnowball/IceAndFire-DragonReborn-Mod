@@ -11,7 +11,6 @@ import org.apache.logging.log4j.Logger;
 import java.util.Map;
 
 import static com.swsnowball.dragonreborn.config.DragonRebornConfig.HEAD_YAW_DOWNFALL;
-import static com.swsnowball.dragonreborn.util.DragonNBTUtil.setHasReset;
 
 public class DragonLookController {
 
@@ -102,10 +101,6 @@ public class DragonLookController {
         headPitch = Mth.lerp(0.1F, headPitch, 0);
         neckYaw = Mth.lerp(0.1F, neckYaw, 0);
         neckPitch = Mth.lerp(0.1F, neckPitch, 0);
-        // 达到缓动函数接近目标值时停止
-        if (headYaw < 0.01 && headPitch < 0.01 && neckYaw < 0.01 && neckPitch < 0.01) {
-            setHasReset(dragon, true);
-        }
     }
 
     public float getHeadYaw() { return headYaw; }

@@ -8,7 +8,7 @@
     "EntityDragonBaseMixin",
     "ItemDragonFluteMixin",
     "ItemDragonHornMixin",
-    "ItemSummoningCrystalMixin"
+    "ItemSummoningCrystalMixin",
   ],
   "client": [
   ],

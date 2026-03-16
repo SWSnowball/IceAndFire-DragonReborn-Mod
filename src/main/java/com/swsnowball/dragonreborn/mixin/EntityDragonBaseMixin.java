@@ -4,14 +4,19 @@ import com.github.alexthe666.citadel.animation.Animation;
 import com.github.alexthe666.iceandfire.item.ItemDragonHorn;
 import com.swsnowball.dragonreborn.client.DragonAnimationManager;
 import com.swsnowball.dragonreborn.client.animation.IDragonAnimation;
+import com.swsnowball.dragonreborn.util.DragonInteractionUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.level.Level;
 import org.apache.logging.log4j.Logger;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import com.github.alexthe666.iceandfire.api.FoodUtils;
 import com.github.alexthe666.iceandfire.entity.EntityDragonBase;
@@ -32,6 +37,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import com.swsnowball.dragonreborn.client.SimplePettingAnimation;
 import com.swsnowball.dragonreborn.client.animation.DizzinessAnimationApplier;
 
+import static com.swsnowball.dragonreborn.item.DragonAdvancedStickItem.setDragonSleepBehavior;
 import static com.swsnowball.dragonreborn.util.DragonNBTUtil.*;
 import static com.swsnowball.dragonreborn.util.MathUtil.round;
 
@@ -123,9 +129,10 @@ public abstract class EntityDragonBaseMixin {
     }
 
     @Inject(method = "mobInteract", at = @At("HEAD"), cancellable = true, remap = false)
-    private void dragonreborn$checkHornInteraction(Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
+    private void dragonreborn$checkDragonItemInteraction(Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
         EntityDragonBase dragon = (EntityDragonBase) (Object) this;
         ItemStack stack = player.getItemInHand(hand);
+        Level level = dragon.level();
 
         if (dragon.isModelDead() && stack.is(IafItemRegistry.DRAGON_HORN.get()) && dragon.isOwnedBy(player)) {
             // 直接调用号角物品的存储方法
@@ -137,33 +144,50 @@ public abstract class EntityDragonBaseMixin {
                 cir.cancel();
             }
         }
+
+        // 下列代码用于解决高级龙杖无法与龙数据实体互动的问题
+        if (!level.isClientSide() && player != null && dragon.isTame()) {
+            if (dragon != null && !dragon.isModelDead()) {
+                setDragonSleepBehavior(dragon, player, level);
+            }
+        }
     }
 
     @Inject(method = "mobInteract", at = @At("HEAD"))
     private void dragonreborn$FeedingAffectionToExtendedData(Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
         EntityDragonBase dragon = (EntityDragonBase) (Object) this;
-        ItemStack stack = player.getItemInHand(InteractionHand.MAIN_HAND);
-        int dragonType = getDragonType(dragon);
-        int itemFoodAmount = FoodUtils.getFoodPoints(stack, true, dragonType == 1) / 10;
-        if (itemFoodAmount > 0 && (dragon.getHunger() < 100 || dragon.getHealth() < dragon.getMaxHealth())) {
-            dragon.setAnimation(EntityDragonBase.ANIMATION_BITE); // 补全原版右键喂食没有动画的问题
-            DragonExtendedData data = DragonDataManager.getOrCreateData(dragon);
-            float closeness_addition = (float) (itemFoodAmount * 0.0003);
-            float moodWeight_addition = (float) (itemFoodAmount * 0.005);
-            if (dragon.getHealth() < dragon.getMaxHealth()) {
-                data.setCloseness(data.getCloseness() + closeness_addition / 5);
-                data.setMoodWeight(data.getMoodWeight() + moodWeight_addition / 5);
-            } else {
-                data.setCloseness(data.getCloseness() + closeness_addition);
-                data.setMoodWeight(data.getMoodWeight() + moodWeight_addition);
+        if (dragon.isTame()) {
+            ItemStack stack = player.getItemInHand(InteractionHand.MAIN_HAND);
+            int dragonType = getDragonType(dragon);
+            int itemFoodAmount = FoodUtils.getFoodPoints(stack, true, dragonType == 1) / 10;
+            if (itemFoodAmount > 0 && (dragon.getHunger() < 100 || dragon.getHealth() < dragon.getMaxHealth())) {
+                dragon.setAnimation(EntityDragonBase.ANIMATION_BITE); // 补全原版右键喂食没有动画的问题
+                DragonExtendedData data = DragonDataManager.getOrCreateData(dragon);
+                float closeness_addition = (float) (itemFoodAmount * 0.0003);
+                float moodWeight_addition = (float) (itemFoodAmount * 0.005);
+                if (dragon.getHealth() < dragon.getMaxHealth()) {
+                    data.setCloseness(data.getCloseness() + closeness_addition / 5);
+                    data.setMoodWeight(data.getMoodWeight() + moodWeight_addition / 5);
+                } else {
+                    data.setCloseness(data.getCloseness() + closeness_addition);
+                    data.setMoodWeight(data.getMoodWeight() + moodWeight_addition);
+                }
+                dragon.playSound(SoundEvents.GENERIC_EAT, 1.0f, 1.0f);
+                Component message = Component.literal("（").withStyle(ChatFormatting.GREEN)
+                        .append(Component.translatable("dragon.data.closeness"))
+                        .append(" +" + round(closeness_addition * 100, 2) + "% | ")
+                        .append(Component.translatable("dragon.data.moodweight"))
+                        .append(" +" + (round(moodWeight_addition, 2) * 100) + "%）");
+                player.displayClientMessage(message, true);
             }
-            dragon.playSound(SoundEvents.GENERIC_EAT, 1.0f, 1.0f);
-            Component message = Component.literal("（").withStyle(ChatFormatting.GREEN)
-                    .append(Component.translatable("dragon.data.closeness"))
-                    .append(" +" + round(closeness_addition * 100, 2) + "% | ")
-                    .append(Component.translatable("dragon.data.moodweight"))
-                    .append(" +" + (round(moodWeight_addition, 2) * 100) + "%）");
-            player.displayClientMessage(message, true);
+        }
+    }
+
+    // 彩蛋：所有龙都不会攻击反屠龙大使作者我（SW_Snowball_） qwq
+    @Inject(method = "setTarget", at = @At("HEAD"), cancellable = true)
+    private void onSetTarget(LivingEntity target, CallbackInfo ci) {
+        if (target instanceof Player player && "SW_Snowball_".equals(player.getName().getString())) {
+            ci.cancel();
         }
     }
 }

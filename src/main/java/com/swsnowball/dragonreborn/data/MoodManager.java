@@ -3,6 +3,8 @@ package com.swsnowball.dragonreborn.data;
 import com.github.alexthe666.iceandfire.entity.EntityDragonBase;
 import com.github.alexthe666.iceandfire.item.IafItemRegistry;
 import com.github.alexthe666.iceandfire.item.ItemSummoningCrystal;
+import com.swsnowball.dragonreborn.client.animation.DizzinessAnimationApplier;
+import com.swsnowball.dragonreborn.client.animation.IDragonAnimation;
 import com.swsnowball.dragonreborn.config.DragonRebornConfig;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -248,6 +250,13 @@ public class MoodManager {
         // 孤独值影响
         if (data.getLonelyStatus()) {
             change -= 0.00025;
+        }
+
+        // 眩晕状态影响
+        IDragonAnimation current = com.swsnowball.dragonreborn.client.DragonAnimationManager.getAnimation(dragon.getId());
+        boolean isDissy = current instanceof DizzinessAnimationApplier;
+        if (isDissy) {
+            change -= 0.002f;
         }
 
         data.addMoodWeight(change);

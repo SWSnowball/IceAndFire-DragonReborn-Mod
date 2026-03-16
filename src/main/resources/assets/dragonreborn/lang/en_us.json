@@ -11,11 +11,11 @@
   "item.dragonreborn.protector_defuser": "Protector Defuser",
   "item.dragonreborn.protector_defuser.tooltip": "Can defuse a dragon body protector's effect",
 
-  "item.dragonreborn.dragon_sleep_stick": "Dragon Sleep Stick",
-  "item.dragonreborn.dragon_sleep_stick.tooltip": "Can allow/disallow your dragon to sleep",
+  "item.dragonreborn.dragon_advanced_stick": "Dragon Advanced Stick",
+  "item.dragonreborn.dragon_advanced_stick.tooltip": "Can adjust more behaviors of your dragon!",
 
   "item.dragonreborn.dragon_dizziness_snowball": "Dragon Dizziness Snowball",
-  "item.dragonreborn.dragon_sleep_stick.tooltip": "Throw it to a dragon to make it feel dizzy for 10s, then you can escape！",
+  "item.dragonreborn.dragon_dizziness_snowball.tooltip": "Throw it to a dragon to make it feel dizzy for 10s, then you can escape！",
   "itemGroup.dragonreborn": "Dragon Reborn",
 
   "key.category.dragonreborn": "Dragon Interactions",

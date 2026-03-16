@@ -2,6 +2,7 @@ package com.swsnowball.dragonreborn.item;
 
 import com.swsnowball.dragonreborn.util.DragonInteractionUtil;
 import com.swsnowball.dragonreborn.util.DragonNBTUtil;
+import net.minecraft.ChatFormatting;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -9,6 +10,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
@@ -23,8 +25,11 @@ import org.apache.logging.log4j.Logger;
 
 import com.github.alexthe666.iceandfire.entity.EntityDragonBase;
 
+import javax.annotation.Nullable;
+import java.util.List;
 import java.util.Random;
 
+import static com.swsnowball.dragonreborn.util.DragonNBTUtil.setDragonDizziness;
 import static com.swsnowball.dragonreborn.util.MathUtil.round;
 
 // 龙族肾上腺素物品类
@@ -201,6 +206,9 @@ public class FasterDragonAdrenalineItem extends Item {
         // 应用效果到实体
         dragon.addEffect(effect);
 
+        // 造成眩晕效果
+        setDragonDizziness(dragon, 1200);
+
         dragon.setCommand(2); // 完成复活后主动寻找主人
 
         // 播放完成音效
@@ -234,5 +242,11 @@ public class FasterDragonAdrenalineItem extends Item {
     public boolean isFoil(ItemStack stack) {
         // 让物品有附魔光效
         return true;
+    }
+
+    // 添加说明文字
+    @Override
+    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
+        tooltip.add((Component.translatable("item.dragonreborn.faster_dragon_adrenaline.tooltip")).withStyle(ChatFormatting.GRAY));
     }
 }

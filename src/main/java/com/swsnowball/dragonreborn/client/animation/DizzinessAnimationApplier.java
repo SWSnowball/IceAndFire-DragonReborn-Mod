@@ -35,8 +35,8 @@ public class DizzinessAnimationApplier implements IDragonAnimation {
     @Override
     public void update(int entityId, float deltaTime) {
         // 每帧增加时间，用于动画循环
-        time += deltaTime * 20; // 20 tick/s 对应游戏刻速度
-        // 注意：剩余刻数由外部数据包更新，这里不自动减少
+        time += deltaTime * 3; // 用较小的数值避免动画更新卡顿
+        // 剩余刻数由外部数据包更新此处不自动减少
     }
 
     @Override
@@ -139,7 +139,7 @@ public class DizzinessAnimationApplier implements IDragonAnimation {
             wingR2.rotateAngleZ += baseDrop * 0.5f - tremor * 0.5f;
         }
 
-        // 趾头轻微弯曲（可选）
+        // 趾头轻微弯曲
         /*
         AdvancedModelBox fingerL1 = cubes.get("FingerL1");
         AdvancedModelBox fingerR1 = cubes.get("FingerR1");

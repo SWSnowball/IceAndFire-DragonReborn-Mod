@@ -14,8 +14,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import static com.swsnowball.dragonreborn.util.DragonNBTUtil.getHasReset;
-
 // 修改 @Mod.EventBusSubscriber 注解
 @Mod.EventBusSubscriber(modid = "dragonreborn", bus = Mod.EventBusSubscriber.Bus.FORGE)
 // 添加客户端限定（因为这是客户端渲染）
@@ -44,7 +42,7 @@ public class DragonLookToPlayerAnimationHandler {
             if (shouldLook) {
                 controller.update();
                 //LOGGER.info("更新龙" + controller.dragon.getName().getString() + "的看向动画");
-            } else if (!shouldLook && !getHasReset(controller.dragon)) {
+            } else if (!shouldLook) {
                 // 如果不应该看，让控制器平滑复位
                 controller.resetToDefault();
                 //LOGGER.info("复位");

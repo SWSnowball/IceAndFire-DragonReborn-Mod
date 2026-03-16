@@ -8,7 +8,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
-// 这个类负责注册所有物品
+// 负责注册所有物品
 public class ModItems {
     // 创建延迟注册器，参数1：注册类型，参数2：mod id
     public static final DeferredRegister<Item> ITEMS =
@@ -51,9 +51,9 @@ public class ModItems {
             )
     );
 
-    public static final RegistryObject<Item> DRAGON_SLEEP_STICK = ITEMS.register(
-            "dragon_sleep_stick",  // 注册名称（小写，使用下划线分隔）
-            () -> new DragonSleepStickItem(
+    public static final RegistryObject<Item> DRAGON_ADVANCED_STICK = ITEMS.register(
+            "dragon_advanced_stick",  // 注册名称（小写，使用下划线分隔）
+            () -> new DragonAdvancedStickItem(
                     new Item.Properties()
                             .stacksTo(1)
                             .rarity(Rarity.COMMON)

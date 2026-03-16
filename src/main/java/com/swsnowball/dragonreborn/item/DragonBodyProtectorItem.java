@@ -3,6 +3,7 @@ package com.swsnowball.dragonreborn.item;
 import com.github.alexthe666.iceandfire.entity.EntityDragonBase;
 import com.swsnowball.dragonreborn.util.DragonInteractionUtil;
 import com.swsnowball.dragonreborn.util.DragonNBTUtil;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
@@ -12,6 +13,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
@@ -20,7 +22,10 @@ import net.minecraft.server.level.ServerLevel;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.Nullable;
+import java.util.List;
 import java.util.Random;
 
 public class DragonBodyProtectorItem extends Item {
@@ -104,4 +109,11 @@ public class DragonBodyProtectorItem extends Item {
                     0.05
             );
         }
-    }}
+    }
+
+    // 添加说明文字
+    @Override
+    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
+        tooltip.add((Component.translatable("item.dragonreborn.dragon_body_protector.tooltip")).withStyle(ChatFormatting.GRAY));
+    }
+}

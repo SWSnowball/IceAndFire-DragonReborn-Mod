@@ -33,13 +33,13 @@ public class SyncDizzinessPacket {
                 net.minecraft.client.Minecraft mc = net.minecraft.client.Minecraft.getInstance();
                 if (mc.level != null) {
                     net.minecraft.world.entity.Entity entity = mc.level.getEntity(entityId);
-                    if (entity instanceof com.github.alexthe666.iceandfire.entity.EntityDragonBase dragon) {
+                    if (entity instanceof com.github.alexthe666.iceandfire.entity.EntityDragonBase) {
                         IDragonAnimation current = com.swsnowball.dragonreborn.client.DragonAnimationManager.getAnimation(entityId);
                         if (dizzyTime > 0) {
                             if (current instanceof DizzinessAnimationApplier) {
                                 ((DizzinessAnimationApplier) current).updateRemaining(dizzyTime);
                             } else {
-                                // 如果当前有其他动画，可以选择停止并开始眩晕
+                                // 如果当前有其他动画，停止并开始眩晕
                                 com.swsnowball.dragonreborn.client.DragonAnimationManager.startAnimation(entityId, new DizzinessAnimationApplier(dizzyTime));
                             }
                         } else {

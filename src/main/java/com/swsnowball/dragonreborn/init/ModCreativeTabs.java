@@ -24,7 +24,7 @@ public class ModCreativeTabs {
                                 output.accept(ModItems.DRAGON_BODY_PROTECTOR.get());
                                 output.accept(ModItems.FASTER_DRAGON_ADRENALINE.get());
                                 output.accept(ModItems.PROTECTOR_DEFUSER.get());
-                                output.accept(ModItems.DRAGON_SLEEP_STICK.get());
+                                output.accept(ModItems.DRAGON_ADVANCED_STICK.get());
                                 output.accept(ModItems.DRAGON_DIZZINESS_SNOWBALL.get());
                                 // 后续添加更多物品
                                 // output.accept(ModItems.ANOTHER_ITEM.get());

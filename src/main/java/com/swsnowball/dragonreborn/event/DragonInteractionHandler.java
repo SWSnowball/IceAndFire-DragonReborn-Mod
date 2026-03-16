@@ -79,6 +79,7 @@ public class DragonInteractionHandler {
                         Component.translatable("dragon.event.untamed_interaction").withStyle(ChatFormatting.RED),
                         false
                 );
+                dragon.roar();
                 return;
             }
 
@@ -87,6 +88,7 @@ public class DragonInteractionHandler {
                         Component.translatable("dragon.event.untamed_interaction").withStyle(ChatFormatting.RED),
                         false
                 );
+                dragon.roar();
                 return;
             }
 
@@ -119,6 +121,8 @@ public class DragonInteractionHandler {
             }
             showText(serverLevel, dragon, data, player, "petting");
             sendParticles(dragon, serverLevel, data);
+            /*
+            // 下面这个是旧的反抗方法
             Random rand = new Random();
             int anim_idx = rand.nextInt(2);
             if (anim_idx == 0 && dragon.getAgeInDays() >= 50)
@@ -131,7 +135,8 @@ public class DragonInteractionHandler {
             } else if (anim_idx == 0 && dragon.getAgeInDays() <= 50) {
                 dragon.setAnimation(ANIMATION_WINGBLAST);
             }
-
+            */
+            dragon.roar();
             return;
         }
 

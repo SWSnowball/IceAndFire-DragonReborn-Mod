@@ -19,7 +19,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import static com.mojang.text2speech.Narrator.LOGGER;
 import static com.swsnowball.dragonreborn.event.DragonLookToPlayerAnimationHandler.CONTROLLERS;
 import static com.swsnowball.dragonreborn.util.DragonNBTUtil.getDragonDizziness;
-import static com.swsnowball.dragonreborn.util.DragonNBTUtil.getHasReset;
 
 @Mixin(DragonTabulaModelAnimator.class)
 public abstract class DragonTabulaModelAnimatorMixin<T extends EntityDragonBase> {
@@ -84,7 +83,6 @@ public abstract class DragonTabulaModelAnimatorMixin<T extends EntityDragonBase>
         );
         if (LookAnimationManager.shouldLookAtPlayer(dragon)) {
             controller.applyToModel(model);
-            DragonNBTUtil.setHasReset(dragon, false);
         }
     }
 }

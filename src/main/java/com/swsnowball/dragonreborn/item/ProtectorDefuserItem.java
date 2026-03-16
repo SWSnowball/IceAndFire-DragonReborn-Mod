@@ -3,6 +3,7 @@ package com.swsnowball.dragonreborn.item;
 
 import com.github.alexthe666.iceandfire.entity.EntityDragonBase;
 import com.swsnowball.dragonreborn.util.DragonInteractionUtil;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -14,10 +15,13 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import javax.annotation.Nullable;
+import java.util.List;
 import java.util.Random;
 
 import static com.swsnowball.dragonreborn.util.DragonNBTUtil.isDragonProtected;
@@ -112,5 +116,11 @@ public class ProtectorDefuserItem extends Item {
                     0.05
             );
         }
+    }
+
+    // 添加说明文字
+    @Override
+    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
+        tooltip.add((Component.translatable("item.dragonreborn.protector_defuser.tooltip")).withStyle(ChatFormatting.GRAY));
     }
 }
