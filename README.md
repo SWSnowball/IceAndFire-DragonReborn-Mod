@@ -14,6 +14,8 @@ Mod Features (up to 2026.2.21):
 ① The amulet can prevent other players from looting the dragon's body upon death (If you are the owner of the protected dragon, your looting action will be simply refused, with other players who tried to loot will take damages)
 6. Dragon Adrenaline (available in regular and concentrated versions):
 ① When used on a dragon, revives it within a certain time (regular: revival time = dragon's age in days × 5s, concentrated: 4s); after revival, sets dragon's health to 20 points and applies Weakness III effect (regular: 5 minutes, concentrated: 10 minutes)
+7. Dragon Dizziness Snowball (New Item)
+① Throw this new snowball to a dragon can make it dizzy for 10 seconds (While the dragon playing dizziness animation, and can't move or fly. And...I added it to avoid you being chased by wild dragons, not added it for hunting dragons.)
 
 2. Dragon Interaction Actions with Player
 ① Petting: Petting the dragon increases affection and mood, maintaining a continuous petting state. Different animations and text feedback appear when petting different parts.
@@ -44,6 +46,7 @@ NeoForged Discord: https://discord.neoforged.net/
 
 Installation information
 =======
+Supported Minecraft Versions : 1.20.1
 
 This template repository can be directly cloned to get you started with a new
 mod. Simply create a new repository cloned from this one, by following the
