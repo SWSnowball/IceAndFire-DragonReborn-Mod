@@ -4,8 +4,12 @@ import com.github.alexthe666.citadel.animation.Animation;
 import com.github.alexthe666.iceandfire.item.ItemDragonHorn;
 import com.swsnowball.dragonreborn.client.DragonAnimationManager;
 import com.swsnowball.dragonreborn.client.animation.IDragonAnimation;
+import com.swsnowball.dragonreborn.init.ModItems;
 import com.swsnowball.dragonreborn.util.DragonInteractionUtil;
 import net.minecraft.ChatFormatting;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
@@ -37,6 +41,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import com.swsnowball.dragonreborn.client.SimplePettingAnimation;
 import com.swsnowball.dragonreborn.client.animation.DizzinessAnimationApplier;
 
+import static com.swsnowball.dragonreborn.data.DragonDataKeys.*;
 import static com.swsnowball.dragonreborn.item.DragonAdvancedStickItem.setDragonSleepBehavior;
 import static com.swsnowball.dragonreborn.util.DragonNBTUtil.*;
 import static com.swsnowball.dragonreborn.util.MathUtil.round;
@@ -44,6 +49,22 @@ import static com.swsnowball.dragonreborn.util.MathUtil.round;
 @Mixin(EntityDragonBase.class)
 public abstract class EntityDragonBaseMixin {
     private static final Logger LOGGER = LogManager.getLogger();
+
+    // TODO：将龙的自定义精神数据迁移到Mixin中
+
+    @Inject(method = "defineSynchedData", at = @At("TAIL"))
+    private void defineAdditionalData(CallbackInfo ci) {
+        EntityDragonBase dragon = (EntityDragonBase) (Object) this;
+        dragon.getEntityData().define(CLOSENESS, 0.0f);
+        dragon.getEntityData().define(MOOD_WEIGHT, 0.5f);
+        dragon.getEntityData().define(LONELINESS, 0.0f);
+        dragon.getEntityData().define(LONELY, false);
+        dragon.getEntityData().define(PLAYER_IS_NEAR, false);
+        dragon.getEntityData().define(CLOSENESS_BONUS, 1.0f);
+        dragon.getEntityData().define(INTERACTION_REQUEST_COOLDOWN, 6000);
+        dragon.getEntityData().define(WAITING_FOR_PLAYER, false);
+        dragon.getEntityData().define(WAITING_TIME, 0);
+    }
 
     @Inject(
             method = "interactAt",
@@ -145,8 +166,13 @@ public abstract class EntityDragonBaseMixin {
             }
         }
 
-        // 下列代码用于解决高级龙杖无法与龙数据实体互动的问题
-        if (!level.isClientSide() && player != null && dragon.isTame()) {
+        // 下列代码用于解决新驯龙物品无法与龙数据实体互动的问题
+        if (!level.isClientSide() && player != null && dragon.isTame() && stack.is(ModItems.DRAGON_ADVANCED_STICK.get())) {
+            if (dragon != null && !dragon.isModelDead()) {
+                setDragonSleepBehavior(dragon, player, level);
+            }
+        }
+        if (!level.isClientSide() && player != null && dragon.isTame() && stack.is(ModItems.DRAGON_ADVANCED_STICK.get())) {
             if (dragon != null && !dragon.isModelDead()) {
                 setDragonSleepBehavior(dragon, player, level);
             }
@@ -186,8 +212,10 @@ public abstract class EntityDragonBaseMixin {
     // 彩蛋：所有龙都不会攻击反屠龙大使作者我（SW_Snowball_） qwq
     @Inject(method = "setTarget", at = @At("HEAD"), cancellable = true)
     private void onSetTarget(LivingEntity target, CallbackInfo ci) {
-        if (target instanceof Player player && "SW_Snowball_".equals(player.getName().getString())) {
-            ci.cancel();
+        if (target instanceof Player player) {
+            if ("SW_Snowball_".equals(player.getName().getString())) {
+                ci.cancel();
+            }
         }
     }
 }

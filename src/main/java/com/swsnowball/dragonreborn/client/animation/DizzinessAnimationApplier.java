@@ -35,7 +35,7 @@ public class DizzinessAnimationApplier implements IDragonAnimation {
     @Override
     public void update(int entityId, float deltaTime) {
         // 每帧增加时间，用于动画循环
-        time += deltaTime * 3; // 用较小的数值避免动画更新卡顿
+        time += deltaTime * 12; // 用较小的数值避免动画更新卡顿
         // 剩余刻数由外部数据包更新此处不自动减少
     }
 

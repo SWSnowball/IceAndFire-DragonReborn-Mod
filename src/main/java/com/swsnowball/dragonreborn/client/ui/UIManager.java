@@ -32,20 +32,19 @@ public class UIManager {
 
         if (hitResult != null && hitResult.getType() == HitResult.Type.ENTITY) {
             Entity target = ((EntityHitResult) hitResult).getEntity();
-
-            // 检查是否是龙
             if (target instanceof EntityDragonBase dragon) {
-                // 检查龙是否被驯服
                 if (dragon.isTame() && dragon.getOwner() != null) {
-                    // 获取数据
                     DragonExtendedData data = DragonDataManager.getOrCreateData(dragon);
-                    DragonDataUI.update(dragon, data);
+                    if (data != null) {
+                        DragonDataUI.update(dragon, data);
+                    } else {
+                        // 数据尚未同步，隐藏 UI 或显示占位符
+                        DragonDataUI.update(null, null);
+                    }
                     return;
                 }
             }
         }
-
-        // 没有看龙，隐藏UI
         DragonDataUI.update(null, null);
     }
 }

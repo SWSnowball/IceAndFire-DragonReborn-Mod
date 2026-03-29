@@ -1,18 +1,18 @@
 {
   "item.dragonreborn.dragon_adrenaline": "Dragon Adrenaline",
-  "item.dragonreborn.dragon_adrenaline.tooltip": "Can revive a deceased dragon (Revival Time: Dragon age in days * 5 secs)",
+  "item.dragonreborn.dragon_adrenaline.tooltip": "Can revive a deceased dragon (Revival Time: Dragon age in days * 5 secs, Please use it on the non-main body part such as tail, neck, etc.)",
 
   "item.dragonreborn.dragon_body_protector": "Dragon Body Protector",
-  "item.dragonreborn.dragon_body_protector.tooltip": "Can protect a deceased dragon's body",
+  "item.dragonreborn.dragon_body_protector.tooltip": "Can protect a deceased dragon's body (Please use it on the non-main body part such as tail, neck, etc.)",
 
   "item.dragonreborn.faster_dragon_adrenaline": "Faster Dragon Adrenaline",
-  "item.dragonreborn.faster_dragon_adrenaline.tooltip": "Can revive a deceased dragon faster (In 4 secs)",
+  "item.dragonreborn.faster_dragon_adrenaline.tooltip": "Can revive a deceased dragon faster (In 4 secs, Please use it on the non-main body part such as tail, neck, etc.)",
 
   "item.dragonreborn.protector_defuser": "Protector Defuser",
-  "item.dragonreborn.protector_defuser.tooltip": "Can defuse a dragon body protector's effect",
+  "item.dragonreborn.protector_defuser.tooltip": "Can defuse a dragon body protector's effect (Please use it on the non-main body part such as tail, neck, etc.)",
 
   "item.dragonreborn.dragon_advanced_stick": "Dragon Advanced Stick",
-  "item.dragonreborn.dragon_advanced_stick.tooltip": "Can adjust more behaviors of your dragon!",
+  "item.dragonreborn.dragon_advanced_stick.tooltip": "Can adjust more behaviors of your dragon!\n(Currently...It only supports to adjust dragon's sleep status...)",
 
   "item.dragonreborn.dragon_dizziness_snowball": "Dragon Dizziness Snowball",
   "item.dragonreborn.dragon_dizziness_snowball.tooltip": "Throw it to a dragon to make it feel dizzy for 10s, then you can escape！",
@@ -27,6 +27,7 @@
   "dragon.data.loneliness": "Lo.",
   "dragon.data.islonely": "Lonely",
   "dragon.data.isownernear": "Near",
+  "dragon.data.dissy.description": "Dissy Time Left",
   "dragon.data.IRC": "I.R.C.",
   "dragon.data.loneliness.rate.great": "Not",
   "dragon.data.loneliness.rate.slight": "Low",

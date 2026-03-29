@@ -62,13 +62,10 @@ public class DragonRebornMod {
         // 监听Mod生命周期的构造事件
         modEventBus.addListener(this::onCommonSetup);
 
-        LOGGER.info("SWSnb_DragonReborn mod initialized!");
-
         // 注册配置文件
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, DragonRebornConfig.SPEC, "dragonreborn-common.toml");
 
         // 在模组构造时初始化文字系统
-        LOGGER.info("初始化文字系统...");
         TextManager.init();
 
         modEventBus.addListener(this::onClientSetup);
@@ -82,12 +79,10 @@ public class DragonRebornMod {
     // 添加commonSetup方法来注册网络包
     private void setup(final FMLCommonSetupEvent event) {
         event.enqueueWork(() -> {
-            // 在这里注册网络包
+            // 注册网络包
             int packetId = 0;
             NETWORK.registerMessage(packetId++, PetDragonPacket.class,
                     PetDragonPacket::encode, PetDragonPacket::new, PetDragonPacket::handle);
-
-            // 注册StartAnimationPacket
             NETWORK.registerMessage(packetId++, StartAnimationPacket.class,
                     StartAnimationPacket::encode, StartAnimationPacket::new, StartAnimationPacket::handle);
             NETWORK.registerMessage(packetId++, StopPettingPacket.class,
@@ -96,12 +91,14 @@ public class DragonRebornMod {
                     SyncAnimationStopPacket::encode, SyncAnimationStopPacket::new, SyncAnimationStopPacket::handle);
             NETWORK.registerMessage(packetId++, SyncDizzinessPacket.class,
                     SyncDizzinessPacket::encode, SyncDizzinessPacket::new, SyncDizzinessPacket::handle);
+            NETWORK.registerMessage(packetId++, PlayerHandAnimationPacket.class,
+                    PlayerHandAnimationPacket::encode, PlayerHandAnimationPacket::new, PlayerHandAnimationPacket::handle);
             LOGGER.info("网络包注册完成，共注册了{}个包。", packetId);
         });
     }
 
     private void onClientSetup(FMLClientSetupEvent event) {
-        LOGGER.info("龙之重生客户端初始化完成");
+        LOGGER.info("客户端初始化完成");
     }
 
     private void onRegisterOverlays(RegisterGuiOverlaysEvent event) {

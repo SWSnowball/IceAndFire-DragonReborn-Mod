@@ -1,21 +1,21 @@
 {
   "item.dragonreborn.dragon_adrenaline": "龙族肾上腺素",
-  "item.dragonreborn.dragon_adrenaline.tooltip": "用于复活死亡的龙（具体时长：驯养天数*5s）",
+  "item.dragonreborn.dragon_adrenaline.tooltip": "用于复活死亡的龙（具体时长：驯养天数*5s，请对龙的脖颈/尾巴等非主体部位使用）",
 
   "item.dragonreborn.dragon_body_protector": "龙族护身符",
-  "item.dragonreborn.dragon_body_protector.tooltip": "用于守护死亡的龙",
+  "item.dragonreborn.dragon_body_protector.tooltip": "用于守护死亡的龙（请对龙的脖颈/尾巴等非主体部位使用）",
 
   "item.dragonreborn.faster_dragon_adrenaline": "浓缩龙族肾上腺素",
-  "item.dragonreborn.faster_dragon_adrenaline.tooltip": "浓度更强的肾上腺素，可以更快速地复活死亡的龙（4s）",
+  "item.dragonreborn.faster_dragon_adrenaline.tooltip": "浓度更强的肾上腺素，可以更快速地复活死亡的龙（4s），请对龙的脖颈/尾巴等非主体部位使用",
 
   "item.dragonreborn.protector_defuser": "护符去除器",
-  "item.dragonreborn.protector_defuser.tooltip": "用于去除龙族护身符的保护效果",
+  "item.dragonreborn.protector_defuser.tooltip": "用于去除龙族护身符的保护效果（请对龙的脖颈/尾巴等非主体部位使用）",
 
   "item.dragonreborn.dragon_dizziness_snowball": "龙眩晕雪球",
   "item.dragonreborn.dragon_dizziness_snowball.tooltip": "向龙投掷可以使其眩晕10s，借此逃离！",
 
   "item.dragonreborn.dragon_advanced_stick": "高级训龙杖",
-  "item.dragonreborn.dragon_advanced_stick.tooltip": "对你的龙的行为状态进行更多有趣的调整！",
+  "item.dragonreborn.dragon_advanced_stick.tooltip": "对你的龙的行为状态进行更多有趣的调整！\n（目前仅支持修改龙的睡眠状态...）",
   "itemGroup.dragonreborn": "龙魂复生",
 
   "dragon.data.closeness": "亲密度",
@@ -24,6 +24,7 @@
   "dragon.data.islonely": "孤独状态",
   "dragon.data.isownernear": "主人靠近",
   "dragon.data.IRC": "互动请求冷却",
+  "dragon.data.dissy.description": "眩晕时长剩余",
   "dragon.data.loneliness.rate.great": "良好",
   "dragon.data.loneliness.rate.slight": "轻微",
   "dragon.data.loneliness.rate.medium": "中等",

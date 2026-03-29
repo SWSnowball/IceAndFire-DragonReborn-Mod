@@ -142,11 +142,11 @@ public class MoodManager {
                     if (data.getLonelyStatus()) {
                         data.setLonelyStatus(false);
                         if (!DragonRebornConfig.ALLOW_TEXT_SHOWING.get()) {
-                                owner.displayClientMessage(
-                                        Component.translatable("dragon.interaction.player_get_back", dragon.getName())
-                                                .withStyle(ChatFormatting.GOLD),
-                                        false
-                                );
+                            owner.displayClientMessage(
+                                    Component.translatable("dragon.interaction.player_get_back", dragon.getName())
+                                            .withStyle(ChatFormatting.GOLD),
+                                    false
+                            );
                         }
                         showText(level, dragon, data, owner, "player_get_back");
                         setDragonCommand(dragon,2);
@@ -157,8 +157,8 @@ public class MoodManager {
             // 3. 更新积极情绪权重
             updateMoodWeight(data, dragon, owner, level);
 
-            // 4. 处理互动请求冷却和请求 - 只在主人在线时才处理
-            if (data.getIRC() > 0 && data.getCloseness() >= 0.2) {
+            // 4. 处理互动请求冷却和请求
+            if (data.getIRC() > 0 && data.getCloseness() >= 0.2 && dragon.getCommand() != 2) {
                 data.setIRC(data.getIRC() - 20); // 减少请求互动冷却
             } else {
                 // 只在主人在线并且不等待玩家时才请求互动
@@ -170,11 +170,11 @@ public class MoodManager {
                 if (data.getWaitingTime() >= 60) { // 若玩家超过60s无反应则自行离开
                     data.setWaitingTime(data.getWaitingTime() - 60);
                     if (!DragonRebornConfig.ALLOW_TEXT_SHOWING.get()) {
-                            owner.displayClientMessage(
-                                    Component.translatable("dragon.interaction.player_ignored", dragon.getName())
-                                            .withStyle(ChatFormatting.GOLD),
-                                    true
-                            );
+                        owner.displayClientMessage(
+                                Component.translatable("dragon.interaction.player_ignored", dragon.getName())
+                                        .withStyle(ChatFormatting.GOLD),
+                                true
+                        );
                     }
                     showText(level, dragon, data, owner, "interaction_ignored");
                     float moodChange = 0.0f;
@@ -201,9 +201,6 @@ public class MoodManager {
                     if (dragon.isFlying()) {dragon.setFlying(false);}
                 }
             }
-
-            // 5. 保存数据
-            DragonDataManager.saveData(dragon, data);
         }
     }
 
@@ -216,13 +213,13 @@ public class MoodManager {
 
         // 骑行/搭在肩上/盘旋守护玩家影响
         if (owner != null && (dragon.isRidingPlayer(owner) || dragon.isHovering() || dragon.hasPassenger(owner))) {
-                change += 0.002f;
-                data.addCloseness(0.000003472f);
+            change += 0.002f;
+            data.addCloseness(0.000003472f);
         }
 
         // 主人陪伴影响
         if (owner != null && dragon.distanceToSqr(owner) < 10 * 10) {
-                change += 0.005f;
+            change += 0.005f;
             // 靠近时心情变好
         }
 
@@ -261,7 +258,6 @@ public class MoodManager {
 
         data.addMoodWeight(change);
         data.setDragonName(dragon.getName().getString());
-        DragonDataManager.saveData(dragon, data);
     }
 
     public static void updateInteractionRequest(DragonExtendedData data, EntityDragonBase dragon, Player player, ServerLevel level) {

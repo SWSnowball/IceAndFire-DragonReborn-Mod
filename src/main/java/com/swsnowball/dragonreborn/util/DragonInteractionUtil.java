@@ -30,25 +30,23 @@ public class DragonInteractionUtil {
      * 客户端的统一检测方法（用于抚摸功能）
      * 先尝试hitResult检测，失败则使用射线检测
      */
-    public static EntityDragonBase unifiedClientDetection() {
+    public static Entity unifiedClientDetection() {
         Minecraft mc = Minecraft.getInstance();
         if (mc.player == null) return null;
 
-        EntityDragonBase dragon = null;
+        Entity entity = null;
 
         // 方法1：使用hitResult检测（针对龙的数据实体）
         if (mc.hitResult != null && mc.hitResult.getType() == HitResult.Type.ENTITY) {
             Entity target = ((net.minecraft.world.phys.EntityHitResult) mc.hitResult).getEntity();
-            dragon = getDragonBaseFromEntity(target);
-
-            if (dragon != null) {
-                return dragon; // 方法1成功
+            if (target != null) {
+                return target; // 方法1成功
             }
         }
 
         // 方法1失败，使用方法2：射线检测（针对龙的部位实体）
-        dragon = clientRaycastDetection(mc.player, 5.0);
-        return dragon;
+        entity = clientRaycastDetection(mc.player, 5.0);
+        return entity;
     }
 
     /**
@@ -115,21 +113,5 @@ public class DragonInteractionUtil {
             }
         }
         return closestDragon;
-    }
-
-    // ========== 向后兼容的方法（保持现有代码不变） ==========
-
-    /**
-     * 旧方法：用于抚摸功能（现在调用统一检测）
-     */
-    public static EntityDragonBase getTargetedPetEntity() {
-        return unifiedClientDetection();
-    }
-
-    /**
-     * 旧方法：用于物品使用（现在调用统一检测）
-     */
-    public static EntityDragonBase getTargetedEntity(Player player, double range) {
-        return unifiedServerDetection(player, range);
     }
 }

@@ -2,6 +2,7 @@ package com.swsnowball.dragonreborn.client.animation;
 
 import com.github.alexthe666.iceandfire.entity.EntityDragonBase;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 
 public class LookToPlayerAnimation {
@@ -24,7 +25,7 @@ public class LookToPlayerAnimation {
     }
 
     // 在 LookToPlayerAnimation.java 中
-    private static double calculateDragonEyeHeight(EntityDragonBase dragon) {
+    public static double calculateDragonEyeHeight(EntityDragonBase dragon) {
         int age = dragon.getAgeInDays();
         // 使用线性公式：y = 0.05 * age - 0.5
         double height = 0.05 * age - 0.5;

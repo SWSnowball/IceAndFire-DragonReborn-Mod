@@ -29,7 +29,7 @@ public class ContinuousPettingManager {
         ACTIVE_PETTING_DRAGONS.remove(dragonId);
     }
 
-    // 可选：当服务器关闭或需要重置时清理
+    // 当服务器关闭或需要重置时清理
     public static void clearAll() {
         ACTIVE_PETTING_DRAGONS.clear();
     }

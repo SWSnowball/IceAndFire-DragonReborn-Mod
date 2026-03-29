@@ -98,7 +98,7 @@ public class DragonLookController {
     public void resetToDefault() {
         // 平滑返回到默认位置
         headYaw = Mth.lerp(0.1F, headYaw, 0);
-        headPitch = Mth.lerp(0.1F, headPitch, 0);
+        headPitch = Mth.lerp(0.1F, headPitch, 20);
         neckYaw = Mth.lerp(0.1F, neckYaw, 0);
         neckPitch = Mth.lerp(0.1F, neckPitch, 0);
     }

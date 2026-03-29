@@ -42,7 +42,6 @@ public class OwnerHurtDragonListener {
                                 .append(Component.translatable("dragon.data.closeness"))
                                 .append(" -" + round(closenessReduction * 100, 2) + "%）");
                         player.displayClientMessage(message, true);
-                        DragonDataManager.saveData(dragon, data);
                     }
                 }
             }

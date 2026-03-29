@@ -273,7 +273,6 @@ public class DragonDataCommand {
                 return 0;
         }
 
-        DragonDataManager.saveData(dragon, data);
         return 1;
     }
 
@@ -324,7 +323,6 @@ public class DragonDataCommand {
                 return 0;
         }
 
-        DragonDataManager.saveData(dragon, data);
         return 1;
     }
 
@@ -339,10 +337,9 @@ public class DragonDataCommand {
             return 0;
         }
 
-        DragonExtendedData newData = new DragonExtendedData();
+        DragonExtendedData newData = new DragonExtendedData(dragon);
         newData.setDragonName(dragon.getName().getString());
 
-        DragonDataManager.saveData(dragon, newData);
         source.sendSuccess(() -> Component.literal("§a已重置 " + dragon.getName().getString() +
                 " 的所有精神数据为默认值"), false);
         return 1;

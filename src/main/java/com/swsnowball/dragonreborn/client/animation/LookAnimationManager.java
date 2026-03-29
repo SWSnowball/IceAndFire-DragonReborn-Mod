@@ -23,8 +23,8 @@ public class LookAnimationManager {
         // 龙处于自由活动状态不看向
         if (dragon.getCommand() == 0) {return false;}
 
-        // 龙正在游泳、爬梯子（也算作移动）
-        if (dragon.isVisuallySwimming() || dragon.isVisuallyCrawling()) {return false;}
+        // 龙正在游泳、爬梯子（也算作移动）（移除）
+        //if (dragon.isVisuallySwimming() || dragon.isVisuallyCrawling()) {return false;}
 
         // 检查距离（10格内）
         double distance = dragon.distanceToSqr(owner);

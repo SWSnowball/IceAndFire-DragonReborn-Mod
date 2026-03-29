@@ -2,6 +2,9 @@ package com.swsnowball.dragonreborn.client.ui;
 
 import com.github.alexthe666.iceandfire.entity.EntityDragonBase;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.swsnowball.dragonreborn.client.SimplePettingAnimation;
+import com.swsnowball.dragonreborn.client.animation.DizzinessAnimationApplier;
+import com.swsnowball.dragonreborn.client.animation.IDragonAnimation;
 import com.swsnowball.dragonreborn.data.DragonExtendedData;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -13,6 +16,7 @@ import net.minecraft.util.Mth;
 import com.swsnowball.dragonreborn.config.DragonRebornConfig;
 
 import static com.swsnowball.dragonreborn.util.DragonDataUtil.getHealthTextColor;
+import static com.swsnowball.dragonreborn.util.DragonNBTUtil.getDragonDizziness;
 
 public class DragonDataUI {
     private static final Minecraft MC = Minecraft.getInstance();
@@ -37,6 +41,8 @@ public class DragonDataUI {
     static float dragon_closeness = 0;
     static float dragon_health = 20.0f;
     static float dragon_maxHealth = 20.0f;
+    static boolean isDissy = false;
+    static int DissyTime = 0;
 
     public static void update(EntityDragonBase dragon, DragonExtendedData data) {
         long currentTime = System.currentTimeMillis();
@@ -50,6 +56,10 @@ public class DragonDataUI {
             dragon_health = dragon.getHealth();
             dragon_maxHealth = dragon.getMaxHealth();
             shouldShow = true;
+            IDragonAnimation current = com.swsnowball.dragonreborn.client.DragonAnimationManager.getAnimation(dragon.getId());
+            isDissy = current instanceof DizzinessAnimationApplier;
+            DissyTime = getDragonDizziness(dragon) / 20;
+
         } else {
             shouldShow = false;
         }
@@ -155,11 +165,19 @@ public class DragonDataUI {
                 renderNumberIndicator(guiGraphics, font,
                         Component.translatable("dragon.data.IRC"),
                         "s", currentData.getIRC() / 20,
-                        xPos + PADDING, lineY + 10, 0xFF2196F3);
+                        xPos + PADDING, lineY + 9, 0xFF2196F3);
             } else {
                 Component hint = Component.translatable("dragon.dataUI.noIRHint", dragonName)
                         .withStyle(ChatFormatting.RED);
                 guiGraphics.drawString(font, hint, xPos + PADDING, lineY + 10, 0xFFFFFF);
+            }
+
+            // 眩晕时长显示
+            if (isDissy) {
+                renderNumberIndicator(guiGraphics, font,
+                        Component.translatable("dragon.data.dissy.description"),
+                        "s", DissyTime,
+                        xPos + PADDING, lineY + 14, 0xFFFF00);
             }
 
             poseStack.popPose();

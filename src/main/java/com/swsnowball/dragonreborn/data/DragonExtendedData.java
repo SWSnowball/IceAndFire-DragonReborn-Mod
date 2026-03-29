@@ -1,126 +1,144 @@
-// com.swsnowball.dragonreborn.data.DragonExtendedData.java
 package com.swsnowball.dragonreborn.data;
 
+import com.github.alexthe666.iceandfire.entity.EntityDragonBase;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 
 public class DragonExtendedData {
-    // 核心数据
-    private float closeness = 0.0f;      // 亲密度 0.0-1.0
-    private float moodWeight = 0.5f;     // 心情权重 1.0到1.0
-    private float loneliness = 0.0f;     // 孤独值 0.0-1.0
-    private boolean lonely = false;
-    private boolean player_isNear = false;
-    private float closeness_bonus = 1.0f;
-    private int interaction_request_cooldown = 6000;
-    private boolean is_waiting_for_player = false;
-    private int waiting_time = 0;
+    // 持有龙实体引用，所有 getter/setter 直接操作实体的 DataTracker
+    private final EntityDragonBase dragon;
 
-    // 基础信息
-    private String dragonName = "";
-
-    // ================= 基础方法 =================
-
-    // 序列化到NBT（保存数据）
-    public CompoundTag serialize() {
-        CompoundTag tag = new CompoundTag();
-        tag.putFloat("closeness", closeness);
-        tag.putFloat("moodWeight", moodWeight);
-        tag.putFloat("loneliness", loneliness);
-        tag.putString("dragonName", dragonName);
-        tag.putBoolean("lonely", lonely);
-        tag.putBoolean("player_isNear", player_isNear);
-        tag.putFloat("closeness_bonus", closeness_bonus);
-        tag.putInt("interaction_request_cooldown", interaction_request_cooldown);
-        tag.putBoolean("is_waiting_for_player", is_waiting_for_player);
-        tag.putInt("waiting_time", waiting_time);
-        return tag;
+    // 构造函数：从实体创建
+    public DragonExtendedData(EntityDragonBase dragon) {
+        this.dragon = dragon;
+        // 首次创建时尝试迁移旧数据（仅一次）
+        migrateOldData();
     }
 
-    // 从NBT反序列化（读取数据）
-    public static DragonExtendedData deserialize(CompoundTag tag) {
-        DragonExtendedData data = new DragonExtendedData();
-        data.closeness = tag.getFloat("closeness");
-        data.moodWeight = tag.getFloat("moodWeight");
-        data.loneliness = tag.getFloat("loneliness");
-        data.dragonName = tag.getString("dragonName");
-        data.lonely = tag.getBoolean("lonely");
-        data.player_isNear = tag.getBoolean("player_isNear");
-        data.closeness_bonus = tag.getFloat("closeness_bonus");
-        data.interaction_request_cooldown = tag.getInt("interaction_request_cooldown");
-        data.is_waiting_for_player = tag.getBoolean("is_waiting_for_player");
-        data.waiting_time = tag.getInt("waiting_time");
-        return data;
+    // ================= 数据迁移（从旧的 PersistentData 搬到 DataTracker） =================
+    private void migrateOldData() {
+        if (dragon == null) return;
+        // 检查是否已经迁移过（标记存在则跳过）
+        CompoundTag persistentData = dragon.getPersistentData();
+        if (persistentData.contains("DragonRebornDataMigrated")) return;
+
+        // 如果存在旧数据，则读取并写入 DataTracker
+        if (persistentData.contains("DragonRebornData")) {
+            CompoundTag oldData = persistentData.getCompound("DragonRebornData");
+
+            dragon.getEntityData().set(DragonDataKeys.CLOSENESS, oldData.getFloat("closeness"));
+            dragon.getEntityData().set(DragonDataKeys.MOOD_WEIGHT, oldData.getFloat("moodWeight"));
+            dragon.getEntityData().set(DragonDataKeys.LONELINESS, oldData.getFloat("loneliness"));
+            dragon.getEntityData().set(DragonDataKeys.LONELY, oldData.getBoolean("lonely"));
+            dragon.getEntityData().set(DragonDataKeys.PLAYER_IS_NEAR, oldData.getBoolean("player_isNear"));
+            dragon.getEntityData().set(DragonDataKeys.CLOSENESS_BONUS, oldData.getFloat("closeness_bonus"));
+            dragon.getEntityData().set(DragonDataKeys.INTERACTION_REQUEST_COOLDOWN, oldData.getInt("interaction_request_cooldown"));
+            dragon.getEntityData().set(DragonDataKeys.WAITING_FOR_PLAYER, oldData.getBoolean("is_waiting_for_player"));
+            dragon.getEntityData().set(DragonDataKeys.WAITING_TIME, oldData.getInt("waiting_time"));
+
+            // 删除旧数据
+            persistentData.remove("DragonRebornData");
+        }
+        // 标记已迁移，避免重复执行
+        persistentData.putBoolean("DragonRebornDataMigrated", true);
     }
 
-    // ================= Getter和Setter =================
-    // 这些方法确保数值在合理范围内
-
-    public float getCloseness() { return closeness; }
+    // ================= Getter / Setter（直接操作 DataTracker） =================
+    public float getCloseness() {
+        return dragon.getEntityData().get(DragonDataKeys.CLOSENESS);
+    }
     public void setCloseness(float value) {
-        this.closeness = Math.max(0.0f, Math.min(1.0f, value));
+        float clamped = Math.max(0.0f, Math.min(1.0f, value));
+        dragon.getEntityData().set(DragonDataKeys.CLOSENESS, clamped);
     }
 
-    public boolean getLonelyStatus() { return lonely; }
-    public void setLonelyStatus(boolean value) {
-        this.lonely = value;
+    public float getMoodWeight() {
+        return dragon.getEntityData().get(DragonDataKeys.MOOD_WEIGHT);
     }
-
-    public boolean getPlayerIsNear() { return player_isNear; }
-    public void setPlayerIsNear(boolean value) {
-        this.player_isNear = value;
-    }
-
-    public int getIRC() {return interaction_request_cooldown;}
-    public void setIRC(int value) {this.interaction_request_cooldown = value;}
-
-    public boolean getWaitingForPlayer() {return is_waiting_for_player;}
-    public void setWaitingForPlayer(boolean value) {this.is_waiting_for_player = value;}
-
-    public int getWaitingTime() {return waiting_time;}
-    public void setWaitingTime(int value) {this.waiting_time = value;}
-
-    public float getCloseness_bonus() {return closeness_bonus;}
-    public void setCloseness_bonus(float value) {this.closeness_bonus = value;}
-
-    public float getMoodWeight() { return moodWeight; }
     public void setMoodWeight(float value) {
-        this.moodWeight = Math.max(0.0f, Math.min(1.0f, value));
+        float clamped = Math.max(0.0f, Math.min(1.0f, value));
+        dragon.getEntityData().set(DragonDataKeys.MOOD_WEIGHT, clamped);
     }
 
-    public float getLoneliness() { return loneliness; }
+    public float getLoneliness() {
+        return dragon.getEntityData().get(DragonDataKeys.LONELINESS);
+    }
     public void setLoneliness(float value) {
-        this.loneliness = Math.max(0.0f, Math.min(1.0f, value));
+        float clamped = Math.max(0.0f, Math.min(1.0f, value));
+        dragon.getEntityData().set(DragonDataKeys.LONELINESS, clamped);
     }
 
-    public String getDragonName() { return dragonName; }
-    public void setDragonName(String name) { this.dragonName = name; }
+    public boolean getLonelyStatus() {
+        return dragon.getEntityData().get(DragonDataKeys.LONELY);
+    }
+    public void setLonelyStatus(boolean value) {
+        dragon.getEntityData().set(DragonDataKeys.LONELY, value);
+    }
 
-    // ================= 辅助方法 =================
+    public boolean getPlayerIsNear() {
+        return dragon.getEntityData().get(DragonDataKeys.PLAYER_IS_NEAR);
+    }
+    public void setPlayerIsNear(boolean value) {
+        dragon.getEntityData().set(DragonDataKeys.PLAYER_IS_NEAR, value);
+    }
 
-    // 增加亲密度（带边界检查）
+    public float getCloseness_bonus() {
+        return dragon.getEntityData().get(DragonDataKeys.CLOSENESS_BONUS);
+    }
+    public void setCloseness_bonus(float value) {
+        dragon.getEntityData().set(DragonDataKeys.CLOSENESS_BONUS, value);
+    }
+
+    public int getIRC() {
+        return dragon.getEntityData().get(DragonDataKeys.INTERACTION_REQUEST_COOLDOWN);
+    }
+    public void setIRC(int value) {
+        int clamped = Math.max(0, value);
+        dragon.getEntityData().set(DragonDataKeys.INTERACTION_REQUEST_COOLDOWN, clamped);
+    }
+
+    public boolean getWaitingForPlayer() {
+        return dragon.getEntityData().get(DragonDataKeys.WAITING_FOR_PLAYER);
+    }
+    public void setWaitingForPlayer(boolean value) {
+        dragon.getEntityData().set(DragonDataKeys.WAITING_FOR_PLAYER, value);
+    }
+
+    public int getWaitingTime() {
+        return dragon.getEntityData().get(DragonDataKeys.WAITING_TIME);
+    }
+    public void setWaitingTime(int value) {
+        dragon.getEntityData().set(DragonDataKeys.WAITING_TIME, value);
+    }
+
+    public String getDragonName() {
+        return dragon.getName().getString();
+    }
+    public void setDragonName(String name) {
+        // 龙的名字由原版管理，这里不做实际修改（保留方法避免外部报错）
+    }
+
+    // 辅助方法
     public void addCloseness(float delta) {
-        setCloseness(this.closeness + delta);
+        setCloseness(getCloseness() + delta);
     }
-    public void addLoneliness(float delta) {setLoneliness(this.loneliness + delta); }
-
-    // 增加心情权重
+    public void addLoneliness(float delta) {
+        setLoneliness(getLoneliness() + delta);
+    }
     public void addMoodWeight(float delta) {
-        setMoodWeight(this.moodWeight + delta);
+        setMoodWeight(getMoodWeight() + delta);
     }
 
-    // 获取心情描述（简单版）
     public Component getMoodDescription() {
-        if (moodWeight > 0.7f) return Component.translatable("dragon.data.mood.rate.happy");
-        if (moodWeight < 0.3f) return Component.translatable("dragon.data.mood.rate.sad");
+        if (getMoodWeight() > 0.7f) return Component.translatable("dragon.data.mood.rate.happy");
+        if (getMoodWeight() < 0.3f) return Component.translatable("dragon.data.mood.rate.sad");
         return Component.translatable("dragon.data.mood.rate.calm");
     }
 
-    // 获取亲密度描述（简单版）
     public Component getClosenessDescription() {
-        if (closeness > 0.7f) return Component.translatable("dragon.data.closeness.pretty");
-        if (closeness > 0.5f) return Component.translatable("dragon.data.closeness.high");
-        if (closeness > 0.2f) return Component.translatable("dragon.data.closeness.medium");
+        if (getCloseness() > 0.7f) return Component.translatable("dragon.data.closeness.pretty");
+        if (getCloseness() > 0.5f) return Component.translatable("dragon.data.closeness.high");
+        if (getCloseness() > 0.2f) return Component.translatable("dragon.data.closeness.medium");
         return Component.translatable("dragon.data.closeness.low");
     }
 }

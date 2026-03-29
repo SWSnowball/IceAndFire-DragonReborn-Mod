@@ -81,8 +81,6 @@ public abstract class DragonTabulaModelAnimatorMixin<T extends EntityDragonBase>
                 dragon.getUUID(),
                 k -> new DragonLookController(dragon)
         );
-        if (LookAnimationManager.shouldLookAtPlayer(dragon)) {
-            controller.applyToModel(model);
-        }
+        controller.applyToModel(model);
     }
 }
