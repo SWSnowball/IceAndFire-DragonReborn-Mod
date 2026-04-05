@@ -3,6 +3,7 @@ package com.swsnowball.dragonreborn.client.animation;
 import com.github.alexthe666.citadel.client.model.AdvancedModelBox;
 import com.github.alexthe666.citadel.client.model.TabulaModel;
 import com.github.alexthe666.iceandfire.entity.EntityDragonBase;
+import net.minecraft.util.Mth;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -15,6 +16,7 @@ public class DizzinessAnimationApplier implements IDragonAnimation {
     private final int maxTicks;      // 初始最大刻数
     private float intensity;         // 当前强度 0~1
     private float time;              // 累积时间，用于周期性运动
+    private float random_pitch = 0.0f;
     private static final Random RANDOM = new Random();
 
     public DizzinessAnimationApplier(int durationTicks) {
@@ -22,6 +24,7 @@ public class DizzinessAnimationApplier implements IDragonAnimation {
         this.remainingTicks = durationTicks;
         this.intensity = 1.0f;
         this.time = RANDOM.nextFloat() * 100f; // 随机初始相位
+        this.random_pitch = (RANDOM.nextFloat() * 60.0f - 30.0f) * Mth.DEG_TO_RAD;
     }
 
     /**
@@ -45,19 +48,19 @@ public class DizzinessAnimationApplier implements IDragonAnimation {
 
         Map<String, AdvancedModelBox> cubes = model.getCubes();
 
-        // 1. 头部摇晃（左右+上下）
+        // 头部摇晃（左右+上下）
         applyHeadAnimation(cubes, intensity, time);
 
-        // 2. 脖子跟随头部
+        // 脖子跟随头部
         applyNeckAnimation(cubes, intensity, time);
 
-        // 3. 尾巴缓慢摆动
+        // 尾巴缓慢摆动
         applyTailAnimation(cubes, intensity, time);
 
-        // 4. 翅膀下垂并微微颤动（参考 WINGBLAST 的翅膀姿态）
+        // 翅膀下垂并微微颤动（参考 WINGBLAST 的翅膀姿态）
         applyWingAnimation(cubes, intensity, time);
 
-        // 5. 身体下沉
+        // 身体下沉
         applyBodyAnimation(cubes, intensity);
     }
 
@@ -66,7 +69,7 @@ public class DizzinessAnimationApplier implements IDragonAnimation {
         if (head == null) return;
 
         // 左右摇晃（幅度随强度减弱）
-        float headYaw = (float) Math.sin(time * 0.15) * 0.2f * intensity;
+        float headYaw = (float) Math.sin(time * 0.15) * 0.2f * intensity + this.random_pitch;
         head.rotateAngleY += headYaw;
 
         // 上下摇晃
@@ -113,8 +116,6 @@ public class DizzinessAnimationApplier implements IDragonAnimation {
     }
 
     private void applyWingAnimation(Map<String, AdvancedModelBox> cubes, float intensity, float time) {
-        // 参考 Ice and Fire 中 WINGBLAST 的翅膀姿态：
-        // 在 WINGBLAST 动画中，翅膀会向外展开再收回。眩晕时我们希望翅膀无力地下垂并轻微颤抖。
         AdvancedModelBox wingL1 = cubes.get("WingL1");
         AdvancedModelBox wingR1 = cubes.get("WingR1");
         if (wingL1 == null || wingR1 == null) return;
@@ -138,19 +139,6 @@ public class DizzinessAnimationApplier implements IDragonAnimation {
         if (wingR2 != null) {
             wingR2.rotateAngleZ += baseDrop * 0.5f - tremor * 0.5f;
         }
-
-        // 趾头轻微弯曲
-        /*
-        AdvancedModelBox fingerL1 = cubes.get("FingerL1");
-        AdvancedModelBox fingerR1 = cubes.get("FingerR1");
-        if (fingerL1 != null) {
-            fingerL1.rotateAngleX += 0.1f * intensity;
-        }
-        if (fingerR1 != null) {
-            fingerR1.rotateAngleX += 0.1f * intensity;
-        }
-
-         */
     }
 
     private void applyBodyAnimation(Map<String, AdvancedModelBox> cubes, float intensity) {
@@ -158,7 +146,6 @@ public class DizzinessAnimationApplier implements IDragonAnimation {
         if (bodyUpper != null) {
             bodyUpper.rotateAngleX -= 0.05f * intensity; // 身体下沉
         }
-        // 四肢放松
         AdvancedModelBox legFrontL = cubes.get("LegFrontL");
         AdvancedModelBox legFrontR = cubes.get("LegFrontR");
         if (legFrontL != null) {

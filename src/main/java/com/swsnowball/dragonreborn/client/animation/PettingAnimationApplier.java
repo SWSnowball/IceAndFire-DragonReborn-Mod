@@ -55,26 +55,25 @@ public class PettingAnimationApplier {
 
         if (head == null) return;
 
-        // 1. 头部向一侧倾斜（周期性摆动）
+        // 头部向一侧倾斜（周期性摆动）
         if (dragon_mood > 0.3) {
             float headTilt = (float) Math.sin(time * 2.0f) * 0.15f * (1.0f - easedProgress);
             head.rotateAngleZ += headTilt;
         }
 
-        // 2. 头部微微下垂
+        // 头部微微下垂
         float headDown = (float) (easedProgress * HEAD_DOWNFALL_MULTIPLE.get());
         head.rotateAngleX -= headDown;
 
-        // TODO:龙的闭眼效果会在DragonInteractionHandler.java展示
-        // TODO:Alex通过实时更换了一整条龙的纹理来实现睁眼/闭眼效果，不是通过添加/移除这一小块龙的眼睛纹理
+        // TODO:龙的闭眼效果会在EntityDragonBaseMixin.java展示
 
-        // 3. 轻微左右转动（享受状）
+        // 轻微左右转动（享受状）
         if (dragon_mood >= 0.7) {
             float headTurn = (float) ((float) Math.sin(time * HEAD_SWINGING_SPEED.get()) * HEAD_SWINGING_RANGE.get());
             head.rotateAngleY += headTurn;
         }
 
-        // 4. 下颚张开（舒服的叹气）
+        // 下颚张开（舒服的叹气）
         /*
         AdvancedModelBox jaw = cubes.get("Jaw");
         if (jaw != null) {

@@ -15,12 +15,11 @@ public class DragonExtendedData {
         migrateOldData();
     }
 
-    // ================= 数据迁移（从旧的 PersistentData 搬到 DataTracker） =================
+    // 数据迁移
     private void migrateOldData() {
         if (dragon == null) return;
         // 检查是否已经迁移过（标记存在则跳过）
         CompoundTag persistentData = dragon.getPersistentData();
-        if (persistentData.contains("DragonRebornDataMigrated")) return;
 
         // 如果存在旧数据，则读取并写入 DataTracker
         if (persistentData.contains("DragonRebornData")) {
@@ -39,8 +38,6 @@ public class DragonExtendedData {
             // 删除旧数据
             persistentData.remove("DragonRebornData");
         }
-        // 标记已迁移，避免重复执行
-        persistentData.putBoolean("DragonRebornDataMigrated", true);
     }
 
     // ================= Getter / Setter（直接操作 DataTracker） =================

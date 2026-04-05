@@ -45,7 +45,7 @@ public class DragonLookToPlayerAnimationHandler {
             } else if (!shouldLook) {
                 // 如果不应该看，让控制器平滑复位
                 controller.resetToDefault();
-                //LOGGER.info("复位");
+                //LOGGER.info("更新龙" + controller.dragon.getName().getString() + "的看向动画复位");
             //}
         }
     }

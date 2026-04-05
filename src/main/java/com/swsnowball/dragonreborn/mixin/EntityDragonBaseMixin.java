@@ -7,6 +7,7 @@ import com.swsnowball.dragonreborn.client.animation.IDragonAnimation;
 import com.swsnowball.dragonreborn.init.ModItems;
 import com.swsnowball.dragonreborn.util.DragonInteractionUtil;
 import net.minecraft.ChatFormatting;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -168,7 +169,7 @@ public abstract class EntityDragonBaseMixin {
 
         // 下列代码用于解决新驯龙物品无法与龙数据实体互动的问题
         if (!level.isClientSide() && player != null && dragon.isTame() && stack.is(ModItems.DRAGON_ADVANCED_STICK.get())) {
-            if (dragon != null && !dragon.isModelDead()) {
+            if (!dragon.isModelDead()) {
                 setDragonSleepBehavior(dragon, player, level);
             }
         }
@@ -206,6 +207,45 @@ public abstract class EntityDragonBaseMixin {
                         .append(" +" + (round(moodWeight_addition, 2) * 100) + "%）");
                 player.displayClientMessage(message, true);
             }
+        }
+    }
+
+    /**
+     * 手动保存自定义数据到 NBT
+     */
+    @Inject(method = "addAdditionalSaveData", at = @At("TAIL"))
+    private void dragonreborn$saveCustomData(CompoundTag compound, CallbackInfo ci) {
+        EntityDragonBase dragon = (EntityDragonBase) (Object) this;
+        CompoundTag customData = new CompoundTag();
+        customData.putFloat("Closeness", dragon.getEntityData().get(CLOSENESS));
+        customData.putFloat("MoodWeight", dragon.getEntityData().get(MOOD_WEIGHT));
+        customData.putFloat("Loneliness", dragon.getEntityData().get(LONELINESS));
+        customData.putBoolean("Lonely", dragon.getEntityData().get(LONELY));
+        customData.putBoolean("PlayerIsNear", dragon.getEntityData().get(PLAYER_IS_NEAR));
+        customData.putFloat("ClosenessBonus", dragon.getEntityData().get(CLOSENESS_BONUS));
+        customData.putInt("InteractionRequestCooldown", dragon.getEntityData().get(INTERACTION_REQUEST_COOLDOWN));
+        customData.putBoolean("WaitingForPlayer", dragon.getEntityData().get(WAITING_FOR_PLAYER));
+        customData.putInt("WaitingTime", dragon.getEntityData().get(WAITING_TIME));
+        compound.put("DragonRebornDataV2", customData);
+    }
+
+    /**
+     * 手动从 NBT 加载自定义数据
+     */
+    @Inject(method = "readAdditionalSaveData", at = @At("TAIL"))
+    private void dragonreborn$loadCustomData(CompoundTag compound, CallbackInfo ci) {
+        if (compound.contains("DragonRebornDataV2")) {
+            CompoundTag customData = compound.getCompound("DragonRebornDataV2");
+            EntityDragonBase dragon = (EntityDragonBase) (Object) this;
+            dragon.getEntityData().set(CLOSENESS, customData.getFloat("Closeness"));
+            dragon.getEntityData().set(MOOD_WEIGHT, customData.getFloat("MoodWeight"));
+            dragon.getEntityData().set(LONELINESS, customData.getFloat("Loneliness"));
+            dragon.getEntityData().set(LONELY, customData.getBoolean("Lonely"));
+            dragon.getEntityData().set(PLAYER_IS_NEAR, customData.getBoolean("PlayerIsNear"));
+            dragon.getEntityData().set(CLOSENESS_BONUS, customData.getFloat("ClosenessBonus"));
+            dragon.getEntityData().set(INTERACTION_REQUEST_COOLDOWN, customData.getInt("InteractionRequestCooldown"));
+            dragon.getEntityData().set(WAITING_FOR_PLAYER, customData.getBoolean("WaitingForPlayer"));
+            dragon.getEntityData().set(WAITING_TIME, customData.getInt("WaitingTime"));
         }
     }
 

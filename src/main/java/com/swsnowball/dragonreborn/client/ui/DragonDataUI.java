@@ -58,7 +58,7 @@ public class DragonDataUI {
             shouldShow = true;
             IDragonAnimation current = com.swsnowball.dragonreborn.client.DragonAnimationManager.getAnimation(dragon.getId());
             isDissy = current instanceof DizzinessAnimationApplier;
-            DissyTime = getDragonDizziness(dragon) / 20;
+            DissyTime = getDragonDizziness(dragon);
 
         } else {
             shouldShow = false;
@@ -165,7 +165,7 @@ public class DragonDataUI {
                 renderNumberIndicator(guiGraphics, font,
                         Component.translatable("dragon.data.IRC"),
                         "s", currentData.getIRC() / 20,
-                        xPos + PADDING, lineY + 9, 0xFF2196F3);
+                        xPos + PADDING, lineY + 2, 0xFF2196F3);
             } else {
                 Component hint = Component.translatable("dragon.dataUI.noIRHint", dragonName)
                         .withStyle(ChatFormatting.RED);
@@ -176,8 +176,8 @@ public class DragonDataUI {
             if (isDissy) {
                 renderNumberIndicator(guiGraphics, font,
                         Component.translatable("dragon.data.dissy.description"),
-                        "s", DissyTime,
-                        xPos + PADDING, lineY + 14, 0xFFFF00);
+                        "s", (float) DissyTime / 20,
+                        xPos + PADDING, lineY + 17, 0xFFFF00);
             }
 
             poseStack.popPose();

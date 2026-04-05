@@ -37,6 +37,7 @@ public class PlayerAnimationHandler {
         ANIMATED_PLAYERS.add(player.getUUID());
         PLAYER_TARGET_ID.put(player.getUUID(), target.getId());
         ANIMATION_PROGRESS.put(player.getUUID(), 0f);
+        //DragonRebornMod.LOGGER.info("启用动画: 玩家={}, 目标={}", player.getName().getString(), target);
     }
 
     public static void disableAnimationClient(Player player) {
@@ -82,10 +83,13 @@ public class PlayerAnimationHandler {
     public static void onRenderPlayerPre(RenderPlayerEvent.Pre event) {
         Player player = event.getEntity();
         if (!isAnimationEnabled(player)) return;
+        //DragonRebornMod.LOGGER.info("渲染玩家: {}, 动画状态={}", player.getName().getString(), isAnimationEnabled(player));
 
         Integer targetId = PLAYER_TARGET_ID.get(player.getUUID());
+        //DragonRebornMod.LOGGER.info("目标ID: {}", targetId);
         if (targetId == null) return;
         Entity target = player.level().getEntity(targetId);
+        //DragonRebornMod.LOGGER.info("目标实体: {}", target);
         if (target == null) return;
 
         // 获取玩家模型和右臂
@@ -101,6 +105,39 @@ public class PlayerAnimationHandler {
         }
 
         // 计算手臂角度
+        double dx = player.getX() - target.getX();
+        double dy = player.getY() + player.getEyeHeight() - targetY;
+        double dz = player.getZ() - target.getZ();
+        double horizontalDistance = Math.sqrt(dx * dx + dz * dz);
+        float yaw = (float) (Math.atan2(dz, dx) * (180.0 / Math.PI)) - 90.0F;
+        float pitch = (float) (-(Math.atan2(dy, horizontalDistance) * (180.0 / Math.PI)));
+
+        float progress = ANIMATION_PROGRESS.getOrDefault(player.getUUID(), 0f);
+        float rotate = (float) Math.sin(progress) * (RANGE + yaw);
+
+        rightArm.xRot = pitch;
+        rightArm.yRot = rotate;
+    }
+
+    @SubscribeEvent
+    public static void onRenderPlayerPost(RenderPlayerEvent.Post event) {
+        Player player = event.getEntity();
+        if (!isAnimationEnabled(player)) return;
+        // 重新应用手臂旋转（逻辑与 Pre 相同）
+        Integer targetId = PLAYER_TARGET_ID.get(player.getUUID());
+        if (targetId == null) return;
+        Entity target = player.level().getEntity(targetId);
+        if (target == null) return;
+
+        PlayerModel<AbstractClientPlayer> model = event.getRenderer().getModel();
+        ModelPart rightArm = model.rightArm;
+
+        float ageInTicks = player.tickCount + event.getPartialTick();
+        float targetY = (float) target.getY();
+        if (target instanceof EntityDragonBase) {
+            targetY += calculateDragonEyeHeight((EntityDragonBase) target);
+        }
+
         double dx = player.getX() - target.getX();
         double dy = player.getY() + player.getEyeHeight() - targetY;
         double dz = player.getZ() - target.getZ();

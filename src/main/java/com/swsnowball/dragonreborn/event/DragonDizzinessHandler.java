@@ -24,7 +24,7 @@ public class DragonDizzinessHandler {
             for (ServerLevel level : event.getServer().getAllLevels()) {
                 level.getAllEntities().forEach(entity -> {
                     long gameTime = level.getGameTime();
-                    // 每20tick执行一次
+                    // 每5tick执行一次
                     if (gameTime % UPDATE_INTERVAL == 0) {
                         if (entity instanceof EntityDragonBase dragon) {
                             updateDragonDizziness(dragon);
@@ -38,7 +38,7 @@ public class DragonDizzinessHandler {
     public static void updateDragonDizziness(EntityDragonBase dragon) {
         int dizziness = getDragonDizziness(dragon);
         if (dizziness > 0) {
-            int newDizziness = Math.max(0, dizziness - 5); // 每次减少20刻
+            int newDizziness = Math.max(0, dizziness - 5); // 每次减少5刻
             setDragonDizziness(dragon, newDizziness);
 
             // 应用药水效果（缓慢IX）

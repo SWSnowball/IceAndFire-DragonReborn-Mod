@@ -42,7 +42,7 @@ public class DragonLookController {
         }
 
         // 应用平滑过渡
-        float lerpSpeed = 0.2F;  // 从 0.2F 改为 0.1F，让过渡更平滑
+        float lerpSpeed = 0.2F;  // 值越小越平滑
 
         headYaw = Mth.lerp(lerpSpeed, headYaw, lookData.headYaw);
         headPitch = Mth.lerp(lerpSpeed, headPitch, lookData.headPitch);
